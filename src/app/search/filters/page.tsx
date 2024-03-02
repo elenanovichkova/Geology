@@ -552,35 +552,39 @@ export default function FilterSearch() {
                         </Formik>
                       </div>
                     </div>
-                    <div className="grid col-start-2 col-span-3 background-filter rounded">
-                      {init && (
-                        <div className="col-start-1 col-span-12">
-                          <div className="m-6 text-center">Search Results</div>
-                        </div>
-                      )}
-                      {loading && (
-                        <div className="col-start-7">
-                          <SpinnerComponent />
-                        </div>
-                      )}
-                      {!loading && (
-                        <div className="col-start-1 col-span-12">
-                          {samples.length > 0 &&
-                            samples.map((sample) => (
-                              <Link
-                                key={sample.id}
-                                href={`/search/filters/${sample.id}`}
-                              >
-                                <div className="m-2">
-                                  <SampleCard {...sample} />
-                                </div>
-                              </Link>
-                            ))}
-                        </div>
-                      )}
-                      {!loading && samples.length === 0 && init && (
-                        <div className="col-start-7">No Results Found</div>
-                      )}
+                    <div className="grid">
+                      <div className="grid col-start-0 col-span-12 md:col-start-2 md:col-span-3 lg:col-start-2 lg:col-span-3 background-filter rounded">
+                        {init && (
+                          <div className="col-start-1 col-span-12">
+                            <div className="m-6 text-center">
+                              Search Results
+                            </div>
+                          </div>
+                        )}
+                        {loading && (
+                          <div className="col-start-7">
+                            <SpinnerComponent />
+                          </div>
+                        )}
+                        {!loading && (
+                          <div className="col-start-1 col-span-12">
+                            {samples.length > 0 &&
+                              samples.map((sample) => (
+                                <Link
+                                  key={sample.id}
+                                  href={`/search/filters/${sample.id}`}
+                                >
+                                  <div className="m-2">
+                                    <SampleCard {...sample} />
+                                  </div>
+                                </Link>
+                              ))}
+                          </div>
+                        )}
+                        {!loading && samples.length === 0 && init && (
+                          <div className="col-start-7">No Results Found</div>
+                        )}
+                      </div>
                     </div>
                     {/* <div className="">
                       <div className="m-6 text-center">Search Results</div>
