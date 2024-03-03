@@ -57,6 +57,17 @@ export interface SearchLocationParams {
   } | null;
 }
 
+export interface ResultStatus{
+
+}
+
+export interface PresignedURL{
+    url: string;
+    sourceFileName: string;
+    destS3FileName: string;
+}
+
+
 export class API {
   public static readonly API_URL =
     "https://3d9e678b12.execute-api.us-east-1.amazonaws.com/prod";
@@ -131,25 +142,26 @@ export class API {
   }
 
   //add sample using POST
-  public static addSample(sample: Sample): Promise<Sample> {
-    console.log("POST addSample: ", sample);
-    console.log("POST addSample as JSON: ", JSON.stringify(sample));
-    return this.fetchData<Sample, Sample>("/samples", "POST", sample);
+  public static addSample(sample: Sample): Promise<ResultStatus> {
+    return this.fetchData<Sample, ResultStatus>("/samples", "POST", sample);
   }
 
   // delete Sample by id
-  public static deleteSample(id: number): Promise<Sample> {
-    return this.fetchGetDeleteData<Sample>(`/samples/${id}`, "DELETE");
+  public static deleteSample(id: number): Promise<ResultStatus> {
+    return this.fetchGetDeleteData<ResultStatus>(`/samples/${id}`, "DELETE");
   }
 
-  // example of batch upload given the provided file that has samples
-  public static batchUpload(file: File): Promise<Sample[]> {
+  public static uploadFile(file: File, presignedUrl: PresignedURL): Promise<Sample[]> {
     const formData = new FormData();
     formData.append("file", file);
-    return fetch(API.API_URL + "/batchupload", {
+    return fetch(presignedUrl.url, {
       method: "POST",
       body: formData,
+      headers: {
+        "Content-Type": file.type,
+      }
     }).then((response) => {
+      //TODO
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -157,12 +169,31 @@ export class API {
     });
   }
 
+  public static getPresignedUrl(file: File): Promise<PresignedURL> {
+    return this.fetchData<{ contentType: string }, PresignedURL>(
+      "/samples/presignedUrl",
+      "POST",
+      { contentType: file.type }
+    ).then( res => {
+        res.sourceFileName = file.name;
+        return res;
+    });
+  }
+
+  public static batchUpload(presignedURL: PresignedURL): Promise<ResultStatus> {
+    return this.fetchData<PresignedURL, ResultStatus>(
+      "/samples/upload/batch",
+      "POST",
+      presignedURL
+    );
+  }
+
   // login to get token
   public static login(username: string, password: string): Promise<string> {
     return this.fetchData<{ username: string; password: string }, string>(
       "/login",
       "POST",
-      { username, password }
+      { username: username, password: password }
     );
   }
 }
