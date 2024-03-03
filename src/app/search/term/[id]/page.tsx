@@ -7,14 +7,10 @@ type Props = {
   params: {
     id: number;
   };
-  sample: Sample;
 };
 
-export default function TermSampleDetails({
-  params,
-  sample: initSample,
-}: Props) {
-  const [sample, setSample] = useState<Sample>(initSample);
+export default function TermSampleDetails({ params }: Props) {
+  const [sample, setSample] = useState<Sample | null>(null);
 
   useEffect(() => {
     API.getSample(params.id).then((result) => {

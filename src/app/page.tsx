@@ -52,7 +52,7 @@ export default function Home() {
                     </div>
                     <div className="md:col-start-4 md:col-span-3 lg:col-start-4 lg:col-span-3">
                       <div className="text-center">
-                        <Link href="/newentry">
+                        <Link href="/newsample">
                           <button className="text-primary btn border-primary md:border-2 hover:bg-primary hover:text-white fill-current transition ease-out duration-500">
                             <div className="">
                               <span className="">New Entry Form </span>
