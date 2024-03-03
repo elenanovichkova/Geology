@@ -76,7 +76,8 @@ export interface FileUpload {
 
 
 export interface ResultStatus{
-
+    success: boolean,
+    message: string
 }
 
 export interface PresignedURL{
@@ -85,6 +86,10 @@ export interface PresignedURL{
     destS3FileName: string;
 }
 
+export interface FileParams{
+    name: string;
+    contentType: string;
+}
 
 export class API {
   public static readonly API_URL =
@@ -169,7 +174,7 @@ export class API {
     return this.fetchGetDeleteData<ResultStatus>(`/samples/${id}`, "DELETE");
   }
 
-  public static uploadFile(file: File, presignedUrl: PresignedURL): Promise<Sample[]> {
+  public static uploadFile(file: File, presignedUrl: PresignedURL): Promise<ResultStatus> {
     const formData = new FormData();
     formData.append("file", file);
     return fetch(presignedUrl.url, {
@@ -183,19 +188,17 @@ export class API {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      return response.json();
+      return { success: true, message: ""};
     });
   }
 
   public static getPresignedUrl(file: File): Promise<PresignedURL> {
+    const fileParams: FileParams = {name: file.name, contentType: file.type};
     return this.fetchData<{ contentType: string }, PresignedURL>(
       "/presigned-url",
       "POST",
-      { contentType: file.type }
-    ).then( res => {
-        res.sourceFileName = file.name;
-        return res;
-    });
+      fileParams
+    );
   }
 
   public static batchUpload(presignedURL: PresignedURL): Promise<ResultStatus> {
