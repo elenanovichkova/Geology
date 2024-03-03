@@ -171,7 +171,7 @@ export class API {
 
   public static getPresignedUrl(file: File): Promise<PresignedURL> {
     return this.fetchData<{ contentType: string }, PresignedURL>(
-      "/samples/presignedUrl",
+      "/presigned-url",
       "POST",
       { contentType: file.type }
     ).then( res => {
