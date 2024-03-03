@@ -57,6 +57,24 @@ export interface SearchLocationParams {
   } | null;
 }
 
+export interface MapSearchLocationParams {
+  locationRectangleBounds?: {
+    Jh: {
+      lo: number;
+      hi: number;
+    },
+    Zh: {
+      lo: number;
+      hi: number;
+    },
+  } | null;
+}
+
+export interface FileUpload {
+  file?: File;
+}
+
+
 export interface ResultStatus{
 
 }
