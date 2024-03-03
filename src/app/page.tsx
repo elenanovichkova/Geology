@@ -7,7 +7,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col ">
       <div className="basis-1/12  items-center justify-between pt-2 pl-8 pr-8 sm:pt-4 sm:pl-16 sm:pr-16">
         <div className="grid md:grid-cols-6 md:gap-4">
-          <div className="col-start-0 col-span-12 md:col-start-1 md:col-span-6 lg:col-start-2 lg:col-span-4">
+          <div className="col-start-0 col-span-12 md:col-start-1 md:col-span-6 lg:col-start-3 lg:col-span-4">
             <LoginButton />
           </div>
         </div>
@@ -15,7 +15,7 @@ export default function Home() {
 
       <div className="basis-11/12 items-center justify-between pt-2 pl-8 pr-8 pb-8 sm:pt-4 sm:pl-16 sm:pr-16 sm:pb-16">
         <div className="grid md:grid-cols-6 md:gap-4">
-          <div className="col-start-0 col-span-12 md:col-start-1 md:col-span-6 lg:col-start-2 lg:col-span-4">
+          <div className="col-start-0 col-span-12 md:col-start-1 md:col-span-6 lg:col-start-2 lg:col-span-5">
             <div className="card hover:shadow-lg">
               <h2 className="card-title">Geo-Science Sample Database</h2>
               <div className="card-body">
@@ -55,7 +55,9 @@ export default function Home() {
                         <Link href="/newsample">
                           <button className="text-primary btn border-primary md:border-2 hover:bg-primary hover:text-white fill-current transition ease-out duration-500">
                             <div className="">
-                              <span className="">New Entry Form </span>
+                              <span className="">
+                                New Entry Form / Batch Upload
+                              </span>
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 x="0px"

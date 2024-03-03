@@ -71,7 +71,7 @@ export interface MapSearchLocationParams {
 }
 
 export interface FileUpload {
-  file?: File;
+  file?: File | undefined;
 }
 
 
@@ -175,6 +175,7 @@ export class API {
   }
 
   public static uploadFile(file: File, presignedUrl: PresignedURL): Promise<ResultStatus> {
+    console.log("file.type:", file.type);
     const formData = new FormData();
     formData.append("file", file);
     return fetch(presignedUrl.url, {
