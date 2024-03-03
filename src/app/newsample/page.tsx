@@ -13,6 +13,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import SpinnerComponent from "@/components/spinner/spinner.component";
 import XlsUploader from "@/components/xlsuploader/xlsuploader.component";
+import TextInputField from "@/components/textinputfield/textinputfield.component";
+import OtherOption from "@/components/otheroption/otheroption.component";
 
 const NewSampleSchema = Yup.object().shape({
   category: Yup.string().max(255, "Too Long!").required("Required"),
@@ -244,57 +246,27 @@ export default function NewSample() {
                       Collection
                     </label>
                   </div>
-
-                  {/* <hr className="h-px my-2" /> */}
-                  <div>
-                    <label className="block" htmlFor="sampleId">
-                      Sample ID *
-                    </label>
-                  </div>
-                  <div>
-                    <Field
-                      className="inline-input"
-                      type="text"
-                      name="sampleId"
-                      placeholder="enter sample id..."
-                    />
-                    {props.errors.sampleId && props.touched.sampleId ? (
-                      <div className="text-red-500">
-                        {props.errors.sampleId}
-                      </div>
-                    ) : null}
-                  </div>
-                  <div className="">
-                    <small className="font-thin text-sm block text-muted">
-                      Sample ID may contain letters, numbers, and valid special
-                      characters./,:-#_
-                    </small>
-                  </div>
+                  <TextInputField
+                    name="sampleId"
+                    type="text"
+                    placeholder="enter sample id..."
+                    label={"Sample ID *"}
+                    small="Sample ID may contain letters, numbers, and valid special
+                    characters./,:-#_"
+                  />
                 </fieldset>
                 <fieldset className="border border-black p-4">
                   <legend className="float-none w-auto p-2  text-xl">
                     Collector Info
                   </legend>
-                  <div className="mb-3">
-                    <label className="inline-block" htmlFor="collectorName">
-                      Collector Name
-                    </label>
-                    <Field
-                      className="inline-input"
-                      type="text"
-                      name="collectorName"
-                      placeholder="Enter full name here..."
-                    />
-                    {props.errors.collectorName &&
-                    props.touched.collectorName ? (
-                      <div className="text-red-500">
-                        {props.errors.collectorName}
-                      </div>
-                    ) : null}
-                    <small className="font-thin text-sm block text-muted">
-                      Enter full name as first and last name. ex. John Doe
-                    </small>
-                  </div>
+                  <TextInputField
+                    name="collectorName"
+                    type="text"
+                    placeholder="Enter full name here..."
+                    label={"Collector Name"}
+                    small="Enter full name as first and last name. ex. John Doe"
+                  />
+
                   <div className="mb-3">
                     <label className="inline-block" htmlFor="advisorName">
                       Advisor
@@ -312,59 +284,21 @@ export default function NewSample() {
                     <small className="font-thin text-sm block text-muted">
                       From the dropdown, select an Advisor.
                     </small>
-                    {props.values.advisorName === "other" && (
-                      <Field
-                        className="inline-input"
-                        type="text"
-                        name="collectionReasonOther"
-                      />
-                    )}
                   </div>
                   {props.values.advisorName === "Other" && (
-                    <div className="mb-3">
-                      <label
-                        className="inline-block"
-                        htmlFor="advisorOtherName"
-                      >
-                        Other Adviser Name
-                      </label>
-                      <Field
-                        className="inline-input"
-                        type="text"
-                        name="advisorOtherName"
-                        placeholder="enter the name of the adviser"
-                      />
-                      {props.errors.advisorOtherName &&
-                      props.touched.advisorOtherName ? (
-                        <div className="text-red-500">
-                          {props.errors.advisorOtherName}
-                        </div>
-                      ) : null}
-                      <small className="font-thin text-sm block text-muted">
-                        Enter the name of the adviser.
-                      </small>
-                    </div>
-                  )}
-                  <div className="mb-3">
-                    <label className="inline-block" htmlFor="collectionYear">
-                      Year Collected
-                    </label>
-                    <Field
-                      className="inline-input"
-                      type="text"
-                      name="collectionYear"
-                      placeholder="enter the year this sample was collected"
+                    <OtherOption
+                      name="advisorOtherName"
+                      type={"text"}
+                      label={"Other Adviser Name"}
                     />
-                    {props.errors.collectionYear &&
-                    props.touched.collectionYear ? (
-                      <div className="text-red-500">
-                        {props.errors.collectionYear}
-                      </div>
-                    ) : null}
-                    <small className="font-thin text-sm block text-muted">
-                      Enter the year of when this sample was collected.
-                    </small>
-                  </div>
+                  )}
+                  <TextInputField
+                    name="collectionYear"
+                    type="text"
+                    placeholder="enter the year this sample was collected"
+                    label={"Year Collected"}
+                    small="Enter the year of when this sample was collected."
+                  />
                   <div className="mb-3">
                     <div>
                       <label className="mb-1 block">
@@ -417,25 +351,11 @@ export default function NewSample() {
                         props.values.collectionReason.find(
                           (reason) => reason == "other"
                         ) === "other" && (
-                          <div className="mb-4">
-                            <label
-                              className="inline-block"
-                              htmlFor="advisorOtherName"
-                            >
-                              Other Purpose of Sample Collection
-                            </label>
-                            <Field
-                              className="inline-input"
-                              type="text"
-                              name="collectionReasonOther"
-                            />
-                            {props.errors.collectionReasonOther &&
-                            props.touched.collectionReasonOther ? (
-                              <div className="text-red-500">
-                                {props.errors.collectionReasonOther}
-                              </div>
-                            ) : null}
-                          </div>
+                          <OtherOption
+                            name="collectionReasonOther"
+                            label={"Other Purpose of Sample Collection"}
+                            type={"text"}
+                          />
                         )}
                     </div>
                   </div>
@@ -451,27 +371,14 @@ export default function NewSample() {
                   <legend className="float-none w-auto p-2  text-xl">
                     Sample Specs
                   </legend>
-                  <div className="mb-3">
-                    <label className="inline-block" htmlFor="shortDescription">
-                      Short Description
-                    </label>
-                    <Field
-                      className="inline-input"
-                      type="text"
-                      name="shortDescription"
-                      placeholder="Enter geologic name of sample here.."
-                    />
-                    {props.errors.shortDescription &&
-                    props.touched.shortDescription ? (
-                      <div className="text-red-500">
-                        {props.errors.shortDescription}
-                      </div>
-                    ) : null}
-                    <small className="font-thin text-sm block text-muted">
-                      Enter a specific geologic name or a reference to the
-                      sample. ex. quartz.
-                    </small>
-                  </div>
+                  <TextInputField
+                    name="shortDescription"
+                    type="text"
+                    placeholder="Enter geologic name of sample here..."
+                    label={"Short Description"}
+                    small="Enter a specific geologic name or a reference to the
+                    sample. ex. quartz."
+                  />
 
                   <div className="mb-3">
                     <div>
@@ -523,25 +430,11 @@ export default function NewSample() {
                         props.values.sampleForm.find(
                           (reason) => reason == "other"
                         ) === "other" && (
-                          <div className="mb-4">
-                            <label
-                              className="inline-block"
-                              htmlFor="advisorOtherName"
-                            >
-                              Other Sample Form
-                            </label>
-                            <Field
-                              className="inline-input"
-                              type="text"
-                              name="sampleFormOther"
-                            />
-                            {props.errors.sampleFormOther &&
-                            props.touched.sampleFormOther ? (
-                              <div className="text-red-500">
-                                {props.errors.sampleFormOther}
-                              </div>
-                            ) : null}
-                          </div>
+                          <OtherOption
+                            name="sampleFormOther"
+                            label={"Other Sample Form"}
+                            type={"text"}
+                          />
                         )}
                     </div>
                   </div>
@@ -565,7 +458,7 @@ export default function NewSample() {
                         />
                         Rock
                       </label>
-                      <label className="inline-block mr-2" htmlFor="sampleForm">
+                      <label className="inline-block mr-2" htmlFor="sampleType">
                         <Field
                           className="mb-2 mr-2"
                           type="checkbox"
@@ -574,7 +467,7 @@ export default function NewSample() {
                         />
                         Mineral
                       </label>
-                      <label className="inline-block mr-2" htmlFor="sampleForm">
+                      <label className="inline-block mr-2" htmlFor="sampleType">
                         <Field
                           className="mb-2 mr-2"
                           type="checkbox"
@@ -583,7 +476,7 @@ export default function NewSample() {
                         />
                         Fossil
                       </label>
-                      <label className="inline-block mr-2" htmlFor="sampleForm">
+                      <label className="inline-block mr-2" htmlFor="sampleType">
                         <Field
                           className="mb-2 mr-2"
                           type="checkbox"
@@ -592,7 +485,7 @@ export default function NewSample() {
                         />
                         Soil
                       </label>
-                      <label className="inline-block mr-2" htmlFor="sampleForm">
+                      <label className="inline-block mr-2" htmlFor="sampleType">
                         <Field
                           className="mb-2 mr-2"
                           type="checkbox"
@@ -601,7 +494,7 @@ export default function NewSample() {
                         />
                         Water
                       </label>
-                      <label className="inline-block mr-2" htmlFor="sampleForm">
+                      <label className="inline-block mr-2" htmlFor="sampleType">
                         <Field
                           className="mb-2 mr-2"
                           type="checkbox"
@@ -614,25 +507,11 @@ export default function NewSample() {
                         props.values.sampleType.find(
                           (reason) => reason == "other"
                         ) === "other" && (
-                          <div className="mb-4">
-                            <label
-                              className="inline-block"
-                              htmlFor="advisorOtherName"
-                            >
-                              Other Sample Type
-                            </label>
-                            <Field
-                              className="inline-input"
-                              type="text"
-                              name="sampleTypeOther"
-                            />
-                            {props.errors.sampleTypeOther &&
-                            props.touched.sampleTypeOther ? (
-                              <div className="text-red-500">
-                                {props.errors.sampleTypeOther}
-                              </div>
-                            ) : null}
-                          </div>
+                          <OtherOption
+                            name="sampleTypeOther"
+                            label={"Other Sample Type"}
+                            type={"text"}
+                          />
                         )}
                     </div>
                   </div>
@@ -640,24 +519,13 @@ export default function NewSample() {
                     <label htmlFor="sampleImg">Sample Image</label>
                     <Field type="file" name="sampleImg" />
                   </div>
-                  <div className="mb-3">
-                    <label className="inline-block" htmlFor="longDescription">
-                      Detailed Description *
-                    </label>
-                    <Field
-                      className="inline-input"
-                      component="textarea"
-                      rows="3"
-                      name="longDescription"
-                      placeholder="Describe the geologic details here..."
-                    />
-                    {props.errors.longDescription &&
-                    props.touched.longDescription ? (
-                      <div className="text-red-500">
-                        {props.errors.longDescription}
-                      </div>
-                    ) : null}
-                  </div>
+                  <TextInputField
+                    name="longDescription"
+                    component="textarea"
+                    rows="3"
+                    placeholder="Enter any additional storage details here"
+                    label={"Detailed Description *"}
+                  />
                 </fieldset>
 
                 <fieldset className="border border-black p-4">
@@ -684,22 +552,11 @@ export default function NewSample() {
                     </small>
                   </div>
                   {props.values.storageBuilding === "Other" && (
-                    <div className="mb-4">
-                      <label className="inline-block" htmlFor="storageBuilding">
-                        Other Storage Building
-                      </label>
-                      <Field
-                        className="inline-input"
-                        type="text"
-                        name="storageBuildingOther"
-                      />
-                      {props.errors.storageBuildingOther &&
-                      props.touched.storageBuildingOther ? (
-                        <div className="text-red-500">
-                          {props.errors.storageBuildingOther}
-                        </div>
-                      ) : null}
-                    </div>
+                    <OtherOption
+                      name="storageBuildingOther"
+                      label={"Other Storage Building"}
+                      type={"text"}
+                    />
                   )}
                   <div className="mb-3">
                     <label className="inline-block" htmlFor="storageRoom">
@@ -722,62 +579,25 @@ export default function NewSample() {
                     </small>
                   </div>
                   {props.values.storageRoom === "Other" && (
-                    <div className="mb-4">
-                      <label
-                        className="inline-block"
-                        htmlFor="storageRoomOther"
-                      >
-                        Other Storage Room
-                      </label>
-                      <Field
-                        className="inline-input"
-                        type="text"
-                        name="storageRoomOther"
-                      />
-                      {props.errors.storageRoomOther &&
-                      props.touched.storageRoomOther ? (
-                        <div className="text-red-500">
-                          {props.errors.storageRoomOther}
-                        </div>
-                      ) : null}
-                    </div>
+                    <OtherOption
+                      name="storageRoomOther"
+                      label={"Other Storage Room"}
+                      type={"text"}
+                    />
                   )}
+                  <TextInputField
+                    name="storageDetails"
+                    type="textarea"
+                    placeholder="Enter any additional storage details here"
+                    label={"Additional Storage Details"}
+                  />
 
-                  <div className="mb-3">
-                    <label className="inline-block" htmlFor="storageDetails">
-                      Additional Storage Details
-                    </label>
-                    <Field
-                      className="inline-input"
-                      type="textarea"
-                      name="storageDetails"
-                      placeholder="Enter any additional storage details here"
-                    />
-                    {props.errors.storageDetails &&
-                    props.touched.storageDetails ? (
-                      <div className="text-red-500">
-                        {props.errors.storageDetails}
-                      </div>
-                    ) : null}
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="inline-block" htmlFor="storageDuration">
-                      Storage Duration in years
-                    </label>
-                    <Field
-                      className="inline-input"
-                      type="text"
-                      name="storageDuration"
-                      placeholder="Enter number of years this sample should be stored in dataase for."
-                    />
-                    {props.errors.storageDuration &&
-                    props.touched.storageDuration ? (
-                      <div className="text-red-500">
-                        {props.errors.storageDuration}
-                      </div>
-                    ) : null}
-                  </div>
+                  <TextInputField
+                    name="storageDuration"
+                    type="text"
+                    placeholder="Enter number of years this sample should be stored in dataase for."
+                    label={"Storage Duration in years"}
+                  />
                 </fieldset>
                 {!props.isValid && props.initialTouched && (
                   <div className="text-center mt-2 text-red-500">
@@ -803,7 +623,7 @@ export default function NewSample() {
                       type="submit"
                       className="bg-secondary-100 hover:bg-secondary-200 text-white font-bold py-2 px-4 rounded ml-3"
                     >
-                      "SUBMIT"
+                      SUBMIT
                     </button>
                     <button onClick={props.handleReset} className="ml-3">
                       Reset
