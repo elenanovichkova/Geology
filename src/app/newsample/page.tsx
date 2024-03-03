@@ -1,12 +1,18 @@
 "use client";
 import { Field, Formik, Form, FormikProps } from "formik";
-import React from "react";
+import React, {
+  InputHTMLAttributes,
+  LegacyRef,
+  RefObject,
+  useRef,
+} from "react";
 import MyGoogleMap from "@/components/googleMap/googleMap.component";
-import { API, Sample } from "@/services/api";
+import { API, Sample, FileUpload } from "@/services/api";
 import * as Yup from "yup";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import SpinnerComponent from "@/components/spinner/spinner.component";
+import XlsUploader from "@/components/xlsuploader/xlsuploader.component";
 import TextInputField from "@/components/textinputfield/textinputfield.component";
 import OtherOption from "@/components/otheroption/otheroption.component";
 import CheckboxInput from "@/components/checkboxinput/checkboxinput.component";
@@ -28,15 +34,124 @@ const NewSampleSchema = Yup.object().shape({
   storageDuration: Yup.number(),
 });
 
+const handleUpload = async (selectedFile: File): Promise<void> => {
+  if (selectedFile) {
+    const presignedURL = await API.getPresignedUrl(selectedFile);
+    await API.uploadFile(selectedFile, presignedURL);
+    await API.batchUpload(presignedURL);
+  } else {
+    alert("Please select a file");
+  }
+};
+
+type FileExtensions = {
+  [key: string]: string[];
+};
+
+function isValidFileType(fileName: string): boolean {
+  return fileName.endsWith(".xlsx");
+}
+
+const BatchUploadSchema = Yup.object().shape({
+  file: Yup.mixed().test(
+    "is-valid-type",
+    "Not a valid file type, only xls format is allowed",
+    (value: any) => {
+      return isValidFileType(value && value.name.toLowerCase());
+    }
+  ),
+});
+
 export default function NewSample() {
   const router = useRouter();
   return (
     <div>
       <div>
         <h2 className="text-center mb-6 font-semibold text-2xl">
-          New Sample Form
+          New Sample Form / Batch Upload
         </h2>
       </div>
+      <Formik
+        validationSchema={BatchUploadSchema}
+        initialValues={
+          {
+            // file: undefined,
+          }
+        }
+        onSubmit={async (values, actions) => {
+          console.log("=============== form values", values);
+          actions.setSubmitting(true);
+          actions.setStatus("submitting");
+          if (values.file) {
+            API.getPresignedUrl(values.file)
+              .then((presignedURL) => {
+                console.log("presigned url", presignedURL);
+                if (values.file)
+                  API.uploadFile(values.file, presignedURL)
+                    .then(() =>
+                      API.batchUpload(presignedURL)
+                        .then((status) => {
+                          alert("success");
+                        })
+                        .catch((error) => {
+                          alert("Batch Upload Error");
+                        })
+                    )
+                    .catch((error) => {
+                      alert("cannot upload file");
+                    });
+              })
+              .catch((error) => {
+                alert("cannot get presigned url");
+              });
+          }
+          // setTimeout(() => {
+          //   actions.setSubmitting(false);
+          // }, 100);
+        }}
+      >
+        {(props: FormikProps<FileUpload>) => {
+          return (
+            <Form>
+              <fieldset className="border border-black p-4">
+                <fieldset className="border border-black p-4">
+                  <legend className="float-none w-auto text-xl">
+                    Batch Upload
+                  </legend>
+                  <div>
+                    <label className="mb-1 inline-block">
+                      <XlsUploader />
+                    </label>
+                    {props.errors.file && props.touched.file ? (
+                      <div className="text-red-500">{props.errors.file}</div>
+                    ) : null}
+                    {props.isValid && props.values.file && (
+                      <button className="inline-block" type="submit">
+                        Submit
+                      </button>
+                    )}
+                  </div>
+                </fieldset>
+              </fieldset>
+            </Form>
+          );
+        }}
+      </Formik>
+
+      <div className="grid">
+        <div className="col-start-0 col-span-4 text-center">
+          <hr className="h-px my-8 border-1 border-black dark:bg-gray-700"></hr>
+        </div>
+        <div className="col-start-5 col-span-1 text-center">
+          <div className="flex w-full h-full items-center justify-center">
+            <div>OR</div>
+          </div>
+        </div>
+        <div className="col-start-6 col-span-4 text-center">
+          <hr className="h-px my-8 border-1 border-black  dark:bg-gray-700"></hr>
+        </div>
+      </div>
+
       <p className="text-center text-sm mb-2">
         Please fill out the form to the best of your ability. The fields marked
         with an asterisk (*) are required to be completed.

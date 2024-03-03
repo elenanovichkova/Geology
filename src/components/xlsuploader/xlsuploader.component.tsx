@@ -1,46 +1,20 @@
-import * as path from "path";
-import * as fs from "fs";
-import { parse } from "csv-parse";
+"use client";
+import { useFormikContext } from "formik";
 
-export const Parse = () => {
-  const filePath = path.resolve(__dirname, "./../../../public/");
+export default function Home() {
+  const { setFieldValue, setFieldTouched } = useFormikContext();
 
-  const headers = [
-    "sampleId",
-    "collectorName",
-    "advisorName",
-    "yearCollected",
-    "locationCoordinates",
-    "shortDescription",
-    "detailedDescription",
-    "storageDetails",
-  ];
-
-  type Sample = {
-    sampleId: string;
-    collectorName: string;
-    advisorName: string;
-    yearCollected: number;
-    locationCoordinates: string;
-    shortDescription: string;
-    detailedDescription: string;
-    storageDetails: string;
+  const handleFileChange = (event: any) => {
+    const file = event.target.files[0];
+    setFieldValue("file", file);
+    setFieldTouched("file", true);
   };
 
-  const fileContent = fs.readFileSync(filePath, { encoding: "utf-8" });
-
-  parse(
-    fileContent,
-    {
-      delimiter: ",",
-      columns: headers,
-    },
-    (error, result: Sample[]) => {
-      if (error) {
-        console.log(error);
-      }
-
-      console.log("Result", result);
-    }
+  return (
+    <div>
+      <div>
+        <input type="file" name="qq" onChange={handleFileChange} />
+      </div>
+    </div>
   );
-};
+}

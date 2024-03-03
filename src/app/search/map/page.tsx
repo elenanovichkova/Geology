@@ -3,24 +3,36 @@ import { Field, Formik, Form, FormikProps } from "formik";
 import React, { useState } from "react";
 import MyGoogleMap from "@/components/googleMap/googleMap.component";
 import Spinner from "@/components/spinner/spinner.component";
-import { API, Sample, SearchLocationParams } from "@/services/api";
+import {
+  API,
+  Sample,
+  MapSearchLocationParams,
+  SearchLocationParams,
+} from "@/services/api";
 import SampleCard from "@/components/samplecard/samplecard.component";
 import Link from "next/link";
 import * as Yup from "yup";
 
-const MapSearchSchema = Yup.object().shape({
-  locationRectangleBounds: Yup.object({
-    south: Yup.number().required(),
-    west: Yup.number().required(),
-    north: Yup.number().required(),
-    east: Yup.number().required(),
-  }).required("Required"),
+const SearchMapValidationSchema = Yup.object().shape({
+  locationRectangleBounds: Yup.object()
+    .shape({
+      Zh: Yup.object().shape({
+        lo: Yup.number().required(),
+        hi: Yup.number().required(),
+      }),
+      Jh: Yup.object().shape({
+        lo: Yup.number().required(),
+        hi: Yup.number().required(),
+      }),
+    })
+    .required(),
 });
 
 export default function SearchMap() {
   const [samples, setSamples] = useState<Sample[]>([]);
   const [loading, setLoading] = useState(false);
   const [init, setInit] = useState(false);
+
   return (
     <div>
       <div className="grid md:grid-cols-4 md:gap-4 pb-4">
@@ -56,54 +68,67 @@ export default function SearchMap() {
       </p>
 
       <Formik
+        validationSchema={SearchMapValidationSchema}
         initialValues={{}}
-        validationSchema={MapSearchSchema}
         onSubmit={async (values, actions) => {
-          console.log("=============== form values", values);
           actions.setSubmitting(true);
           setLoading(true);
           if (!init) {
             setInit(true);
           }
-          API.searchByLocation(values)
-            .then((response) => {
-              setSamples(response);
-              actions.setSubmitting(false);
-              setLoading(false);
-            })
-            .catch(() => {
-              actions.setSubmitting(false);
-              setLoading(false);
-            });
+          let submitValues: SearchLocationParams = {};
+          if (values.locationRectangleBounds) {
+            submitValues = {
+              locationRectangleBounds: {
+                south: values.locationRectangleBounds?.Jh.lo,
+                north: values.locationRectangleBounds?.Zh.hi,
+                east: values.locationRectangleBounds?.Jh.hi,
+                west: values.locationRectangleBounds?.Jh.lo,
+              },
+            };
+            API.searchByLocation(submitValues)
+              .then((response) => {
+                setSamples(response);
+                actions.setSubmitting(false);
+                setLoading(false);
+              })
+              .catch(() => {
+                actions.setSubmitting(false);
+                setLoading(false);
+              });
+          }
+
           // setTimeout(() => {
           //   actions.setSubmitting(false);
           // }, 100);
         }}
       >
-        {(props: FormikProps<SearchLocationParams>) => (
-          <Form>
-            <fieldset className="border border-black p-4">
-              <legend className="float-none w-auto p-2  text-xl">
-                Sample Collection Location
-              </legend>
-              {props.values.locationRectangleBounds && !props.isValid ? (
-                <div className="text-red-500">
-                  {props.errors.locationRectangleBounds}
+        {(props: FormikProps<MapSearchLocationParams>) => {
+          return (
+            <Form>
+              <fieldset className="border border-black p-4">
+                <legend className="float-none w-auto p-2  text-xl">
+                  Sample Collection Location
+                </legend>
+                <MyGoogleMap mode="search" />
+              </fieldset>
+              <div className="text-center mt-2">
+                <button
+                  type="submit"
+                  className="bg-secondary-100 hover:bg-secondary-200 text-white font-bold py-2 px-4 rounded"
+                  disabled={props.isSubmitting}
+                >
+                  SEARCH
+                </button>
+              </div>
+              {!props.isValid && props.initialTouched && (
+                <div className="text-center mt-2 text-red-500">
+                  Please select the area
                 </div>
-              ) : null}
-              <MyGoogleMap mode="search" />
-            </fieldset>
-            <div className="text-center mt-2">
-              <button
-                type="submit"
-                className="bg-secondary-100 hover:bg-secondary-200 text-white font-bold py-2 px-4 rounded"
-                disabled={props.isSubmitting}
-              >
-                SEARCH
-              </button>
-            </div>
-          </Form>
-        )}
+              )}
+            </Form>
+          );
+        }}
       </Formik>
       <div className="grid">
         {init && (
