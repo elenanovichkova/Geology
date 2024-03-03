@@ -5,7 +5,7 @@ export default function SampleDetail(sample: Sample) {
     <div className="flex flex-col">
       <div className="items-center justify-between">
         <div className="grid md:grid-cols-6 md:gap-4">
-          <div className="col-start-0 col-span-12 md:col-start-1 md:col-span-6 lg:col-start-1 lg:col-span-6">
+          <div className="col-start-0 col-span-12 md:col-start-1 md:col-span-6">
             <div className="card hover:shadow-lg">
               <div className="card-body">
                 <div>

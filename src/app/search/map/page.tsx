@@ -6,6 +6,16 @@ import Spinner from "@/components/spinner/spinner.component";
 import { API, Sample, SearchLocationParams } from "@/services/api";
 import SampleCard from "@/components/samplecard/samplecard.component";
 import Link from "next/link";
+import * as Yup from "yup";
+
+const MapSearchSchema = Yup.object().shape({
+  locationRectangleBounds: Yup.object({
+    south: Yup.number().required(),
+    west: Yup.number().required(),
+    north: Yup.number().required(),
+    east: Yup.number().required(),
+  }).required("Required"),
+});
 
 export default function SearchMap() {
   const [samples, setSamples] = useState<Sample[]>([]);
@@ -47,6 +57,7 @@ export default function SearchMap() {
 
       <Formik
         initialValues={{}}
+        validationSchema={MapSearchSchema}
         onSubmit={async (values, actions) => {
           console.log("=============== form values", values);
           actions.setSubmitting(true);
@@ -75,6 +86,11 @@ export default function SearchMap() {
               <legend className="float-none w-auto p-2  text-xl">
                 Sample Collection Location
               </legend>
+              {props.values.locationRectangleBounds && !props.isValid ? (
+                <div className="text-red-500">
+                  {props.errors.locationRectangleBounds}
+                </div>
+              ) : null}
               <MyGoogleMap mode="search" />
             </fieldset>
             <div className="text-center mt-2">

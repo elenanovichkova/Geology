@@ -1,30 +1,66 @@
-import { useFormikContext, Field, FormikProps } from "formik";
-import { Sample } from "../../services/api";
+import { useField, Field } from "formik";
 
-type textInput = {
+interface TextInput {
+  name: string;
   label: String;
-};
-export default function TextInputField(
-  label: String,
-  props: FormikProps<Sample>
-) {
+  placeholder: String;
+  small?: String;
+  type?: String;
+  rows?: String;
+  component?: String;
+}
+
+export default function TextInputField(props: TextInput) {
+  const [field, meta] = useField(props.name);
+
   return (
     <div className="mb-3">
-      <label className="inline-block" htmlFor="collectorName">
-        {label}
+      <label className="inline-block" htmlFor={props.name}>
+        {props.label}
       </label>
       <Field
         className="inline-input"
-        type="text"
-        name="collectorName"
-        placeholder="Enter full name here..."
+        type={props.type}
+        name={props.name}
+        rows={props.rows}
+        component={props.component}
+        placeholder={props.placeholder}
+        // "Enter full name here..."
       />
-      {props.errors.collectorName && props.touched.collectorName ? (
-        <div className="text-red-500">{props.errors.collectorName}</div>
+      {meta.value && meta.touched ? (
+        <div className="text-red-500">{meta.error}</div>
       ) : null}
       <small className="font-thin text-sm block text-muted">
-        Enter full name as first and last name. ex. John Doe
+        {props.small}
       </small>
     </div>
   );
 }
+
+// const MyTextField = ({ label, ...props }) => {
+
+//   const [field, meta, helpers] = useField(props);
+
+//   return (
+
+//     <>
+
+//       <label>
+
+//         {label}
+
+//         <input {...field} {...props} />
+
+//       </label>
+
+//       {meta.touched && meta.error ? (
+
+//         <div className="error">{meta.error}</div>
+
+//       ) : null}
+
+//     </>
+
+//   );
+
+// };
