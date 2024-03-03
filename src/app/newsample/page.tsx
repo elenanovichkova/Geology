@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import SpinnerComponent from "@/components/spinner/spinner.component";
 import TextInputField from "@/components/textinputfield/textinputfield.component";
 import OtherOption from "@/components/otheroption/otheroption.component";
+import CheckboxInput from "@/components/checkboxinput/checkboxinput.component";
 
 const NewSampleSchema = Yup.object().shape({
   category: Yup.string().max(255, "Too Long!").required("Required"),
@@ -196,42 +197,25 @@ export default function NewSample() {
                       </small>
                     </div>
                     <div>
-                      <label
-                        className="inline-block mr-2"
-                        htmlFor="collectionReason"
-                      >
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="collectionReason"
-                          value="teaching"
-                        />
-                        Teaching
-                      </label>
-                      <label
-                        className="inline-block mr-2"
-                        htmlFor="collectionReason"
-                      >
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="collectionReason"
-                          value="research"
-                        />
-                        Research
-                      </label>
-                      <label
-                        className="inline-block mr-2"
-                        htmlFor="collectionReason"
-                      >
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="collectionReason"
-                          value="other"
-                        />
-                        Other
-                      </label>
+                      <CheckboxInput
+                        name="collectionReason"
+                        type={"checkbox"}
+                        value={"teaching"}
+                        label={"Teaching"}
+                      />
+                      <CheckboxInput
+                        name="collectionReason"
+                        type={"checkbox"}
+                        value={"research"}
+                        label={"Research"}
+                      />
+                      <CheckboxInput
+                        name="collectionReason"
+                        type={"checkbox"}
+                        value={"other"}
+                        label={"Other"}
+                      />
+
                       {props.values.collectionReason &&
                         props.values.collectionReason.find(
                           (reason) => reason == "other"
@@ -275,42 +259,30 @@ export default function NewSample() {
                       </small>
                     </div>
                     <div>
-                      <label className="inline-block mr-2" htmlFor="sampleForm">
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="sampleForm"
-                          value="handSample"
-                        />
-                        Hand Sample
-                      </label>
-                      <label className="inline-block mr-2" htmlFor="sampleForm">
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="sampleForm"
-                          value="mineralSeparate"
-                        />
-                        Mineral Separate
-                      </label>
-                      <label className="inline-block mr-2" htmlFor="sampleForm">
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="sampleForm"
-                          value="thinSection"
-                        />
-                        Thin Section
-                      </label>
-                      <label className="inline-block mr-2" htmlFor="sampleForm">
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="sampleForm"
-                          value="other"
-                        />
-                        Other
-                      </label>
+                      <CheckboxInput
+                        name="sampleForm"
+                        type={"checkbox"}
+                        value={"handSample"}
+                        label={"Hand Sample"}
+                      />
+                      <CheckboxInput
+                        name="sampleForm"
+                        type={"checkbox"}
+                        value={"mineralSeparate"}
+                        label={"Mineral Separate"}
+                      />
+                      <CheckboxInput
+                        name="sampleForm"
+                        type={"checkbox"}
+                        value={"thinSection"}
+                        label={"Thin Section"}
+                      />
+                      <CheckboxInput
+                        name="sampleForm"
+                        type={"checkbox"}
+                        value={"other"}
+                        label={"Other"}
+                      />
                       {props.values.sampleForm &&
                         props.values.sampleForm.find(
                           (reason) => reason == "other"
@@ -334,60 +306,42 @@ export default function NewSample() {
                       </small>
                     </div>
                     <div>
-                      <label className="inline-block mr-2" htmlFor="sampleType">
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="sampleType"
-                          value="rock"
-                        />
-                        Rock
-                      </label>
-                      <label className="inline-block mr-2" htmlFor="sampleType">
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="sampleType"
-                          value="mineral"
-                        />
-                        Mineral
-                      </label>
-                      <label className="inline-block mr-2" htmlFor="sampleType">
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="sampleType"
-                          value="fossil"
-                        />
-                        Fossil
-                      </label>
-                      <label className="inline-block mr-2" htmlFor="sampleType">
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="sampleType"
-                          value="soil"
-                        />
-                        Soil
-                      </label>
-                      <label className="inline-block mr-2" htmlFor="sampleType">
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="sampleType"
-                          value="water"
-                        />
-                        Water
-                      </label>
-                      <label className="inline-block mr-2" htmlFor="sampleType">
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="sampleType"
-                          value="other"
-                        />
-                        Other
-                      </label>
+                      <CheckboxInput
+                        name="sampleType"
+                        type={"checkbox"}
+                        value={"rock"}
+                        label={"Rock"}
+                      />
+                      <CheckboxInput
+                        name="sampleType"
+                        type={"checkbox"}
+                        value={"mineral"}
+                        label={"Mineral"}
+                      />
+                      <CheckboxInput
+                        name="sampleType"
+                        type={"checkbox"}
+                        value={"fossil"}
+                        label={"Fossil"}
+                      />
+                      <CheckboxInput
+                        name="sampleType"
+                        type={"checkbox"}
+                        value={"soil"}
+                        label={"Soil"}
+                      />
+                      <CheckboxInput
+                        name="sampleType"
+                        type={"checkbox"}
+                        value={"water"}
+                        label={"Water"}
+                      />
+                      <CheckboxInput
+                        name="sampleType"
+                        type={"checkbox"}
+                        value={"other"}
+                        label={"Other"}
+                      />
                       {props.values.sampleType &&
                         props.values.sampleType.find(
                           (reason) => reason == "other"
