@@ -5,6 +5,7 @@ import MyGoogleMap from "@/components/googleMap/googleMap.component";
 import { API, Sample } from "@/services/api";
 import * as Yup from "yup";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const NewSampleSchema = Yup.object().shape({
   category: Yup.string().max(255, "Too Long!").required("Required"),
@@ -23,7 +24,7 @@ const NewSampleSchema = Yup.object().shape({
   storageDuration: Yup.number(),
 });
 
-export default function NewEntry() {
+export default function NewSample() {
   return (
     <div>
       <div>
@@ -31,6 +32,7 @@ export default function NewEntry() {
           New Sample Form
         </h2>
       </div>
+      <Link href="newsample/success">Test modal</Link>
       <p className="text-center text-sm mb-2">
         Please fill out the form to the best of your ability. The fields marked
         with an asterisk (*) are required to be completed.

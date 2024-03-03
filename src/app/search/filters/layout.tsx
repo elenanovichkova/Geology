@@ -1,4 +1,4 @@
-export default function NewEntryLayout(props: {
+export default function SearchFiltersLayout(props: {
   modal: React.ReactNode;
   children: React.ReactNode;
 }) {
