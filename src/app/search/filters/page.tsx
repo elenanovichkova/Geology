@@ -278,10 +278,7 @@ export default function FilterSearch() {
                           </div>
                         </div>
                         <div className="py-2">
-                          <button
-                            type="submit"
-                            className="w-full bg-secondary-100 hover:bg-secondary-200 text-white font-bold py-2 px-4 md:rounded"
-                          >
+                          <button type="submit" className="submit-search-btn">
                             Search
                           </button>
                         </div>
@@ -324,18 +321,6 @@ export default function FilterSearch() {
                   <div className="col-start-7">No Results Found</div>
                 )}
               </div>
-
-              {/* <div className="">
-                      <div className="m-6 text-center">Search Results</div>
-
-                      <div className="col-start-1 col-span-4">
-                        {samples.map((sample) => (
-                          <div key={sample.sampleId} className="mb-5">
-                            <SampleCard {...sample} />
-                          </div>
-                        ))}
-                      </div>
-                    </div> */}
             </div>
           </div>
         </div>

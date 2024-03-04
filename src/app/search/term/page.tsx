@@ -91,15 +91,12 @@ export default function SearchTerm() {
                       id="searchterm"
                       name="searchterm"
                       placeholder="Enter keyword or phrase to search by..."
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm md:rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      className="filter-field"
                     />
                     <small>Note: separate each word with a space.</small>
                   </div>
                   <div className="col-start-6 col-span-1">
-                    <button
-                      type="submit"
-                      className="w-full bg-secondary-100 hover:bg-secondary-200 text-white font-bold py-2 px-4 md:rounded"
-                    >
+                    <button type="submit" className="submit-search-btn">
                       SEARCH
                     </button>
                   </div>
