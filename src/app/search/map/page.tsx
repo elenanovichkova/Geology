@@ -145,9 +145,13 @@ export default function SearchMap() {
           <div className="col-start-1 col-span-12">
             {samples.length > 0 &&
               samples.map((sample) => (
-                <Link key={sample.id} href={`/search/map/${sample.id}`}>
-                  <SampleCard sample={sample} onDelete={handleOnDelete} />
-                </Link>
+                <div key={sample.id}>
+                  <SampleCard
+                    sample={sample}
+                    onDelete={handleOnDelete}
+                    context="/search/map/"
+                  />
+                </div>
               ))}
           </div>
         )}

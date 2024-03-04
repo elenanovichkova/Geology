@@ -33,293 +33,305 @@ export default function FilterSearch() {
       <div className="items-center justify-between">
         <div className="card hover:shadow-lg">
           <div className="card-body">
-            <div className="grid sm:grid-cols-4 md:grid-cols-4 md:gap-4">
-              <div className="col-start-1 col-span-6 mb-4 md:mb-0 md:col-start-2 md:col-span-1">
-                <div className="text-end">
+            {/* search links */}
+            <div className="flex justify-between md:justify-center mb-3">
+              <div>
+                <div className="md:ml-2 md:mr-2">
                   <Link href="/search/map">
                     <SearchOptionButton text="Map Search" />
                   </Link>
                 </div>
               </div>
-              <div className="col-start-0 col-span-12 mb-4 md:mb-0 md:col-start-3 md:col-span-1">
-                <div className="text-start">
-                  <Link href="/search/term">
-                    <SearchOptionButton text="Text Search" />
-                  </Link>
-                </div>
+              <div>
+                <Link href="/search/term">
+                  <SearchOptionButton text="Text Search" />
+                </Link>
               </div>
-              <div className="col-span-4 md:col-start-1 md:col-span-4 px-2 py-4">
-                <h1 className="text-center font-bold text-lg px-4 shadow-md">
+            </div>
+            {/* search title */}
+            <div className="flex justify-center w-full">
+              <div className="w-full">
+                <h1 className="text-center font-bold text-lg px-4 shadow-md mb-3">
                   Advanced Filter Search
                 </h1>
               </div>
+            </div>
 
-              <div className="col-span-4 md:col-start-1 md:col-span-1 border px-1 py-1 rounded">
-                <div className="flex flex-col">
-                  <Formik
-                    initialValues={{
-                      category: "",
-                      collectorName: "",
-                      advisorName: "",
-                      collectionYear: "",
-                      collectionReason: "",
-                      sampleForm: "",
-                      sampleType: "",
-                      storageBuilding: "",
-                      storageRoom: "",
-                    }}
-                    onSubmit={async (values, actions) => {
-                      console.log(values);
-                      actions.setSubmitting(true);
-                      setLoading(true);
-                      if (!init) {
-                        setInit(true);
-                      }
-                      API.searchByFilter(values)
-                        .then((result) => {
-                          setSamples(result);
-                          actions.setSubmitting(false);
-                          setLoading(false);
-                        })
-                        .catch(() => {
-                          actions.setSubmitting(false);
-                          setLoading(false);
-                        });
-                    }}
-                  >
-                    {(props: FormikProps<SearchFilterParams>) => (
-                      <Form>
-                        <div className="flex justify-between shadow-sm">
-                          <div className="font-bold py-2 px-4">filters</div>
-
-                          <button
-                            onClick={props.handleReset}
-                            className="ml-3 border rounded justify-self-end"
-                          >
-                            Reset
-                          </button>
-                        </div>
-                        <div className="divide-y divide-gray-200">
-                          <div className="px-2 py-2">
-                            <PlusSignToggler
-                              toggle={toggleCategory}
-                              setToggle={setToggleCategory}
-                              label="Category"
-                            />
-
-                            {toggleCategory && (
-                              <Field
-                                name="category"
-                                as="select"
-                                className="filter-field"
+            {/* search filter and search results container */}
+            <div className="flex flex-col md:flex-row">
+              {/* filters */}
+              <div>
+                <div className="min-w-80 rounded m-2">
+                  <div className="flex flex-col">
+                    <Formik
+                      initialValues={{
+                        category: "",
+                        collectorName: "",
+                        advisorName: "",
+                        collectionYear: "",
+                        collectionReason: "",
+                        sampleForm: "",
+                        sampleType: "",
+                        storageBuilding: "",
+                        storageRoom: "",
+                      }}
+                      onSubmit={async (values, actions) => {
+                        console.log(values);
+                        actions.setSubmitting(true);
+                        setLoading(true);
+                        if (!init) {
+                          setInit(true);
+                        }
+                        API.searchByFilter(values)
+                          .then((result) => {
+                            setSamples(result);
+                            actions.setSubmitting(false);
+                            setLoading(false);
+                          })
+                          .catch(() => {
+                            actions.setSubmitting(false);
+                            setLoading(false);
+                          });
+                      }}
+                    >
+                      {(props: FormikProps<SearchFilterParams>) => (
+                        <Form>
+                          <div className="flex justify-between items-center shadow-sm">
+                            <div className="font-bold py-2 px-4">filters</div>
+                            <div>
+                              <button
+                                onClick={props.handleReset}
+                                className="ml-3 border rounded justify-self-end"
                               >
-                                <option value="">select</option>
-                                <option value="singleSpecimen">
-                                  Single Specimen
-                                </option>
-                                <option value="collection">Collection</option>
-                              </Field>
-                            )}
+                                Reset
+                              </button>
+                            </div>
                           </div>
-                          <div className="px-2 py-2">
-                            <PlusSignToggler
-                              toggle={toggleYear}
-                              setToggle={setToggleYear}
-                              label="Year"
-                            />
-
-                            {toggleYear && (
-                              <Field
-                                type="text"
-                                name="collectionYear"
-                                placeholder="collection year"
-                                className="filter-field"
+                          <div className="divide-y divide-gray-200">
+                            <div className="px-2 py-2">
+                              <PlusSignToggler
+                                toggle={toggleCategory}
+                                setToggle={setToggleCategory}
+                                label="Category"
                               />
-                            )}
-                          </div>
-                          <div className="px-2 py-2">
-                            <PlusSignToggler
-                              toggle={toggleCollector}
-                              setToggle={setToggleCollector}
-                              label="Collector"
-                            />
 
-                            {toggleCollector && (
-                              <Field
-                                type="text"
-                                name="collectorName"
-                                placeholder="collector name"
-                                className="filter-field"
+                              {toggleCategory && (
+                                <Field
+                                  name="category"
+                                  as="select"
+                                  className="filter-field"
+                                >
+                                  <option value="">select category</option>
+                                  <option value="singleSpecimen">
+                                    Single Specimen
+                                  </option>
+                                  <option value="collection">Collection</option>
+                                </Field>
+                              )}
+                            </div>
+                            <div className="px-2 py-2">
+                              <PlusSignToggler
+                                toggle={toggleYear}
+                                setToggle={setToggleYear}
+                                label="Year"
                               />
-                            )}
+                              {toggleYear && (
+                                <Field
+                                  type="text"
+                                  name="collectionYear"
+                                  placeholder="collection year"
+                                  className="filter-field"
+                                />
+                              )}
+                            </div>
+                            <div className="px-2 py-2">
+                              <PlusSignToggler
+                                toggle={toggleCollector}
+                                setToggle={setToggleCollector}
+                                label="Collector"
+                              />
+                              {toggleCollector && (
+                                <Field
+                                  type="text"
+                                  name="collectorName"
+                                  placeholder="collector name"
+                                  className="filter-field"
+                                />
+                              )}
+                            </div>
+                            <div className="px-2 py-2">
+                              <PlusSignToggler
+                                toggle={toggleAdvisor}
+                                setToggle={setToggleAdvisor}
+                                label="Advisor"
+                              />
+                              {toggleAdvisor && (
+                                <Field
+                                  name="advisorName"
+                                  as="select"
+                                  className="filter-field"
+                                >
+                                  <option value="">select advisor name</option>
+                                  <option value="Ben">Ben</option>
+                                  <option value="Dave">Dave</option>
+                                </Field>
+                              )}
+                            </div>
+                            <div className="px-2 py-2">
+                              <PlusSignToggler
+                                toggle={toggleReason}
+                                setToggle={setToggleReason}
+                                label="Reason"
+                              />
+                              {toggleReason && (
+                                <Field
+                                  name="collectionReason"
+                                  as="select"
+                                  className="filter-field"
+                                >
+                                  <option value="">
+                                    select collection reason
+                                  </option>
+                                  <option value="teaching">Teaching</option>
+                                  <option value="research">Research</option>
+                                </Field>
+                              )}
+                            </div>
+                            <div className="px-2 py-2">
+                              <PlusSignToggler
+                                toggle={toggleForm}
+                                setToggle={setToggleForm}
+                                label="Form"
+                              />
+                              {toggleForm && (
+                                <Field
+                                  name="sampleForm"
+                                  as="select"
+                                  className="filter-field"
+                                >
+                                  <option value="">select sample form</option>
+                                  <option value="handSample">
+                                    Hand Sample
+                                  </option>
+                                  <option value="mineralSeparate">
+                                    Mineral Separate
+                                  </option>
+                                  <option value="thinSection">
+                                    Thin Section
+                                  </option>
+                                </Field>
+                              )}
+                            </div>
+                            <div className="px-2 py-2">
+                              <PlusSignToggler
+                                toggle={toggleType}
+                                setToggle={setToggleType}
+                                label="Type"
+                              />
+                              {toggleType && (
+                                <Field
+                                  name="sampleType"
+                                  as="select"
+                                  className="filter-field"
+                                >
+                                  <option value="">select sample type</option>
+                                  <option value="rock">Rock</option>
+                                  <option value="mineral">Mineral</option>
+                                  <option value="fossil">Fossil</option>
+                                  <option value="soil">Soil</option>
+                                  <option value="water">Water</option>
+                                </Field>
+                              )}
+                            </div>
+                            <div className="px-2 py-2">
+                              <PlusSignToggler
+                                toggle={toggleBuidling}
+                                setToggle={setToggleBuilding}
+                                label="Building"
+                              />
+                              {toggleBuidling && (
+                                <Field
+                                  name="storageBuilding"
+                                  as="select"
+                                  className="filter-field"
+                                >
+                                  <option value="">
+                                    select storage building
+                                  </option>
+                                  <option value="PS">
+                                    PS (Physical Science)
+                                  </option>
+                                  <option value="CH">CH (Colonial Hall)</option>
+                                </Field>
+                              )}
+                            </div>
+                            <div className="px-2 py-2">
+                              <PlusSignToggler
+                                toggle={toggleRoom}
+                                setToggle={setToggleRoom}
+                                label="Room"
+                              />
+                              {toggleRoom && (
+                                <Field
+                                  name="storageRoom"
+                                  as="select"
+                                  className="filter-field"
+                                >
+                                  <option value="">select storage room</option>
+                                  <option value="room1">Room #1</option>
+                                  <option value="room2">Room #2</option>
+                                  <option value="room3">Room #3</option>
+                                </Field>
+                              )}
+                            </div>
                           </div>
-                          <div className="px-2 py-2">
-                            <PlusSignToggler
-                              toggle={toggleAdvisor}
-                              setToggle={setToggleAdvisor}
-                              label="Advisor"
-                            />
-
-                            {toggleAdvisor && (
-                              <Field
-                                name="advisorName"
-                                as="select"
-                                className="filter-field"
-                              >
-                                <option value="">select</option>
-                                <option value="Ben">Ben</option>
-                                <option value="Dave">Dave</option>
-                              </Field>
-                            )}
+                          <div className="py-2">
+                            <button type="submit" className="submit-search-btn">
+                              Search
+                            </button>
                           </div>
-                          <div className="px-2 py-2">
-                            <PlusSignToggler
-                              toggle={toggleReason}
-                              setToggle={setToggleReason}
-                              label="Reason"
-                            />
-
-                            {toggleReason && (
-                              <Field
-                                name="collectionReason"
-                                as="select"
-                                className="filter-field"
-                              >
-                                <option value="">select</option>
-                                <option value="teaching">Teaching</option>
-                                <option value="research">Research</option>
-                              </Field>
-                            )}
-                          </div>
-                          <div className="px-2 py-2">
-                            <PlusSignToggler
-                              toggle={toggleForm}
-                              setToggle={setToggleForm}
-                              label="Form"
-                            />
-
-                            {toggleForm && (
-                              <Field
-                                name="sampleForm"
-                                as="select"
-                                className="filter-field"
-                              >
-                                <option value="">select</option>
-                                <option value="handSample">Hand Sample</option>
-                                <option value="mineralSeparate">
-                                  Mineral Separate
-                                </option>
-                                <option value="thinSection">
-                                  Thin Section
-                                </option>
-                              </Field>
-                            )}
-                          </div>
-                          <div className="px-2 py-2">
-                            <PlusSignToggler
-                              toggle={toggleType}
-                              setToggle={setToggleType}
-                              label="Type"
-                            />
-
-                            {toggleType && (
-                              <Field
-                                name="sampleType"
-                                as="select"
-                                className="filter-field"
-                              >
-                                <option value="">select</option>
-                                <option value="rock">Rock</option>
-                                <option value="mineral">Mineral</option>
-                                <option value="fossil">Fossil</option>
-                                <option value="soil">Soil</option>
-                                <option value="water">Water</option>
-                              </Field>
-                            )}
-                          </div>
-                          <div className="px-2 py-2">
-                            <PlusSignToggler
-                              toggle={toggleBuidling}
-                              setToggle={setToggleBuilding}
-                              label="Building"
-                            />
-
-                            {toggleBuidling && (
-                              <Field
-                                name="storageBuilding"
-                                as="select"
-                                className="filter-field"
-                              >
-                                <option value="">select</option>
-                                <option value="CH">CH</option>
-                                <option value="PS">PS</option>
-                              </Field>
-                            )}
-                          </div>
-                          <div className="px-2 py-2">
-                            <PlusSignToggler
-                              toggle={toggleRoom}
-                              setToggle={setToggleRoom}
-                              label="Room"
-                            />
-
-                            {toggleRoom && (
-                              <Field
-                                name="storageRoom"
-                                as="select"
-                                className="filter-field"
-                              >
-                                <option value="">select</option>
-                                <option value="room1">Room1</option>
-                                <option value="room2">Room2</option>
-                                <option value="room3">Room3</option>
-                              </Field>
-                            )}
-                          </div>
-                        </div>
-                        <div className="py-2">
-                          <button type="submit" className="submit-search-btn">
-                            Search
-                          </button>
-                        </div>
-                      </Form>
-                    )}
-                  </Formik>
+                        </Form>
+                      )}
+                    </Formik>
+                  </div>
                 </div>
               </div>
-
-              <div className="col-start-0 col-span-12 md:col-start-2 md:col-span-3 lg:col-start-2 lg:col-span-3 background-filter rounded">
-                {init && (
-                  <div className="col-start-1 col-span-12">
-                    <div className="m-6 text-center">Search Results</div>
-                  </div>
-                )}
-                {loading && (
-                  <div className="col-start-7">
-                    <SpinnerComponent />
-                  </div>
-                )}
-                {!loading && (
-                  <div className="col-start-1 col-span-12">
-                    {samples.length > 0 &&
-                      samples.map((sample) => (
-                        <Link
-                          key={sample.id}
-                          href={`/search/filters/${sample.id}`}
-                        >
-                          <div className="m-2">
+              {/* result set */}
+              <div className="md:flex-grow">
+                {" "}
+                <div className="flex flex-col w-full justify-center items-ceneter background-filter rounded">
+                  {init && (
+                    <div className="">
+                      <div className="m-6 text-center">Search Results</div>
+                    </div>
+                  )}
+                  {loading && (
+                    <div className="">
+                      <div className="flex justify-center">
+                        <div>
+                          <SpinnerComponent />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  {!loading && (
+                    <div className="">
+                      {samples.length > 0 &&
+                        samples.map((sample) => (
+                          <div key={sample.id}>
                             <SampleCard
                               sample={sample}
                               onDelete={handleOnDelete}
+                              context="/search/filters/"
                             />
                           </div>
-                        </Link>
-                      ))}
-                  </div>
-                )}
-                {!loading && samples.length === 0 && init && (
-                  <div className="col-start-7">No Results Found</div>
-                )}
+                        ))}
+                    </div>
+                  )}
+                  {!loading && samples.length === 0 && init && (
+                    <div className="">No Results Found</div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

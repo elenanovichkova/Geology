@@ -115,9 +115,13 @@ export default function SearchTerm() {
               <div className="col-start-1 col-span-12">
                 {samples.length > 0 &&
                   samples.map((sample) => (
-                    <Link key={sample.id} href={`/search/term/${sample.id}`}>
-                      <SampleCard sample={sample} onDelete={handleOnDelete} />
-                    </Link>
+                    <div key={sample.id}>
+                      <SampleCard
+                        sample={sample}
+                        onDelete={handleOnDelete}
+                        context="/search/term/"
+                      />
+                    </div>
                   ))}
               </div>
             )}
