@@ -5,6 +5,8 @@ import { useState } from "react";
 import { Sample, API, SearchFilterParams } from "@/services/api";
 import Link from "next/link";
 import SpinnerComponent from "@/components/spinner/spinner.component";
+import SearchOptionButton from "@/components/searchoptionsbutton/searchoptionbutton.component";
+import PlusSignToggler from "@/components/plussigntoggler/plussigntoggler.component";
 
 export default function FilterSearch() {
   const [samples, setSamples] = useState<Sample[]>([]);
@@ -31,45 +33,36 @@ export default function FilterSearch() {
       <div className="items-center justify-between">
         <div className="card hover:shadow-lg">
           <div className="card-body">
-            {/** form links */}
-            <div className="flex flex-col">
-              <div className="flex justify-between md:justify-center w-full">
-                <div>
-                  <div className="md:m-3">
-                    <Link href="/search/map">
-                      <button className="text-primary btn border-primary md:border-2 hover:bg-primary hover:text-white fill-current transition ease-out duration-500">
-                        <div className="">
-                          <span className="">Map Search</span>
-                        </div>
-                      </button>
-                    </Link>
-                  </div>
-                </div>
-                <div>
-                  <div className="md:m-3">
-                    <Link href="/search/term">
-                      <button className="text-primary btn border-primary md:border-2 hover:bg-primary hover:text-white fill-current transition ease-out duration-500">
-                        <div className="">
-                          <span className="">Text Search</span>
-                        </div>
-                      </button>
-                    </Link>
-                  </div>
+            {/* search links */}
+            <div className="flex justify-between md:justify-center mb-3">
+              <div>
+                <div className="md:ml-2 md:mr-2">
+                  <Link href="/search/map">
+                    <SearchOptionButton text="Map Search" />
+                  </Link>
                 </div>
               </div>
-            </div>
-            {/** form title */}
-            <div className="flex justify-center">
               <div>
-                <h1 className="text-center font-bold text-lg px-4">
+                <Link href="/search/term">
+                  <SearchOptionButton text="Text Search" />
+                </Link>
+              </div>
+            </div>
+            {/* search title */}
+            <div className="flex justify-center w-full">
+              <div className="w-full">
+                <h1 className="text-center font-bold text-lg px-4 shadow-md mb-3">
                   Advanced Filter Search
                 </h1>
               </div>
             </div>
-            <div className="flex flex-col md:flex-row w-full h-full">
+
+            {/* search filter and search results container */}
+            <div className="flex flex-col md:flex-row">
+              {/* filters */}
               <div>
-                <div className="rounded md:min-w-80">
-                  <div className="">
+                <div className="min-w-80 rounded m-2">
+                  <div className="flex flex-col">
                     <Formik
                       initialValues={{
                         category: "",
@@ -103,14 +96,12 @@ export default function FilterSearch() {
                     >
                       {(props: FormikProps<SearchFilterParams>) => (
                         <Form>
-                          <div className="flex justify-between shadow-sm items-center p-3">
-                            <div>
-                              <div className="font-bold">filters</div>
-                            </div>
+                          <div className="flex justify-between items-center shadow-sm">
+                            <div className="font-bold py-2 px-4">filters</div>
                             <div>
                               <button
                                 onClick={props.handleReset}
-                                className="p-2 border rounded hover:bg-gray-100"
+                                className="ml-3 border rounded justify-self-end"
                               >
                                 Reset
                               </button>
@@ -118,45 +109,19 @@ export default function FilterSearch() {
                           </div>
                           <div className="divide-y divide-gray-200">
                             <div className="px-2 py-2">
-                              <div className=" flex flex-row justify-between">
-                                Category
-                                <svg
-                                  width="30"
-                                  height="30"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  onClick={() => {
-                                    setToggleCategory(!toggleCategory);
-                                  }}
-                                >
-                                  <g id="SVGRepo_bgCarrier" strokeWidth="0" />
-
-                                  <g
-                                    id="SVGRepo_tracerCarrier"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-
-                                  <g id="SVGRepo_iconCarrier">
-                                    <path
-                                      d="M6 12H18M12 6V18"
-                                      stroke="#d1d5db"
-                                      strokeWidth="2"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    />
-                                  </g>
-                                </svg>
-                              </div>
+                              <PlusSignToggler
+                                toggle={toggleCategory}
+                                setToggle={setToggleCategory}
+                                label="Category"
+                              />
 
                               {toggleCategory && (
                                 <Field
                                   name="category"
                                   as="select"
-                                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm md:rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                  className="filter-field"
                                 >
-                                  <option value="">select</option>
+                                  <option value="">select category</option>
                                   <option value="singleSpecimen">
                                     Single Specimen
                                   </option>
@@ -165,214 +130,86 @@ export default function FilterSearch() {
                               )}
                             </div>
                             <div className="px-2 py-2">
-                              <div className=" flex flex-row justify-between">
-                                Year
-                                <svg
-                                  width="30"
-                                  height="30"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  onClick={() => {
-                                    setToggleYear(!toggleYear);
-                                  }}
-                                >
-                                  <g id="SVGRepo_bgCarrier" strokeWidth="0" />
-
-                                  <g
-                                    id="SVGRepo_tracerCarrier"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-
-                                  <g id="SVGRepo_iconCarrier">
-                                    <path
-                                      d="M6 12H18M12 6V18"
-                                      stroke="#d1d5db"
-                                      strokeWidth="2"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    />
-                                  </g>
-                                </svg>
-                              </div>
+                              <PlusSignToggler
+                                toggle={toggleYear}
+                                setToggle={setToggleYear}
+                                label="Year"
+                              />
                               {toggleYear && (
                                 <Field
                                   type="text"
                                   name="collectionYear"
                                   placeholder="collection year"
-                                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm md:rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                  className="filter-field"
                                 />
                               )}
                             </div>
                             <div className="px-2 py-2">
-                              <div className=" flex flex-row justify-between">
-                                Collector
-                                <svg
-                                  width="30"
-                                  height="30"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  onClick={() => {
-                                    setToggleCollector(!toggleCollector);
-                                  }}
-                                >
-                                  <g id="SVGRepo_bgCarrier" strokeWidth="0" />
-
-                                  <g
-                                    id="SVGRepo_tracerCarrier"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-
-                                  <g id="SVGRepo_iconCarrier">
-                                    <path
-                                      d="M6 12H18M12 6V18"
-                                      stroke="#d1d5db"
-                                      strokeWidth="2"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    />
-                                  </g>
-                                </svg>
-                              </div>
+                              <PlusSignToggler
+                                toggle={toggleCollector}
+                                setToggle={setToggleCollector}
+                                label="Collector"
+                              />
                               {toggleCollector && (
                                 <Field
                                   type="text"
                                   name="collectorName"
                                   placeholder="collector name"
-                                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm md:rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                  className="filter-field"
                                 />
                               )}
                             </div>
                             <div className="px-2 py-2">
-                              <div className=" flex flex-row justify-between">
-                                Advisor
-                                <svg
-                                  width="30"
-                                  height="30"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  onClick={() => {
-                                    setToggleAdvisor(!toggleAdvisor);
-                                  }}
-                                >
-                                  <g id="SVGRepo_bgCarrier" strokeWidth="0" />
-
-                                  <g
-                                    id="SVGRepo_tracerCarrier"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-
-                                  <g id="SVGRepo_iconCarrier">
-                                    <path
-                                      d="M6 12H18M12 6V18"
-                                      stroke="#d1d5db"
-                                      strokeWidth="2"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    />
-                                  </g>
-                                </svg>
-                              </div>
+                              <PlusSignToggler
+                                toggle={toggleAdvisor}
+                                setToggle={setToggleAdvisor}
+                                label="Advisor"
+                              />
                               {toggleAdvisor && (
                                 <Field
                                   name="advisorName"
                                   as="select"
-                                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm md:rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                  className="filter-field"
                                 >
-                                  <option value="">select</option>
+                                  <option value="">select advisor name</option>
                                   <option value="Ben">Ben</option>
                                   <option value="Dave">Dave</option>
                                 </Field>
                               )}
                             </div>
                             <div className="px-2 py-2">
-                              <div className=" flex flex-row justify-between">
-                                Reason
-                                <svg
-                                  width="30"
-                                  height="30"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  onClick={() => {
-                                    setToggleReason(!toggleReason);
-                                  }}
-                                >
-                                  <g id="SVGRepo_bgCarrier" strokeWidth="0" />
-
-                                  <g
-                                    id="SVGRepo_tracerCarrier"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-
-                                  <g id="SVGRepo_iconCarrier">
-                                    <path
-                                      d="M6 12H18M12 6V18"
-                                      stroke="#d1d5db"
-                                      strokeWidth="2"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    />
-                                  </g>
-                                </svg>
-                              </div>
+                              <PlusSignToggler
+                                toggle={toggleReason}
+                                setToggle={setToggleReason}
+                                label="Reason"
+                              />
                               {toggleReason && (
                                 <Field
                                   name="collectionReason"
                                   as="select"
-                                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm md:rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                  className="filter-field"
                                 >
-                                  <option value="">select</option>
+                                  <option value="">
+                                    select collection reason
+                                  </option>
                                   <option value="teaching">Teaching</option>
                                   <option value="research">Research</option>
                                 </Field>
                               )}
                             </div>
                             <div className="px-2 py-2">
-                              <div className=" flex flex-row justify-between">
-                                Form
-                                <svg
-                                  width="30"
-                                  height="30"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  onClick={() => {
-                                    setToggleForm(!toggleForm);
-                                  }}
-                                >
-                                  <g id="SVGRepo_bgCarrier" strokeWidth="0" />
-
-                                  <g
-                                    id="SVGRepo_tracerCarrier"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-
-                                  <g id="SVGRepo_iconCarrier">
-                                    <path
-                                      d="M6 12H18M12 6V18"
-                                      stroke="#d1d5db"
-                                      strokeWidth="2"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    />
-                                  </g>
-                                </svg>
-                              </div>
+                              <PlusSignToggler
+                                toggle={toggleForm}
+                                setToggle={setToggleForm}
+                                label="Form"
+                              />
                               {toggleForm && (
                                 <Field
                                   name="sampleForm"
                                   as="select"
-                                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm md:rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                  className="filter-field"
                                 >
-                                  <option value="">select</option>
+                                  <option value="">select sample form</option>
                                   <option value="handSample">
                                     Hand Sample
                                   </option>
@@ -386,44 +223,18 @@ export default function FilterSearch() {
                               )}
                             </div>
                             <div className="px-2 py-2">
-                              <div className=" flex flex-row justify-between">
-                                Type
-                                <svg
-                                  width="30"
-                                  height="30"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  onClick={() => {
-                                    setToggleType(!toggleType);
-                                  }}
-                                >
-                                  <g id="SVGRepo_bgCarrier" strokeWidth="0" />
-
-                                  <g
-                                    id="SVGRepo_tracerCarrier"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-
-                                  <g id="SVGRepo_iconCarrier">
-                                    <path
-                                      d="M6 12H18M12 6V18"
-                                      stroke="#d1d5db"
-                                      strokeWidth="2"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    />
-                                  </g>
-                                </svg>
-                              </div>
+                              <PlusSignToggler
+                                toggle={toggleType}
+                                setToggle={setToggleType}
+                                label="Type"
+                              />
                               {toggleType && (
                                 <Field
                                   name="sampleType"
                                   as="select"
-                                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm md:rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                  className="filter-field"
                                 >
-                                  <option value="">select</option>
+                                  <option value="">select sample type</option>
                                   <option value="rock">Rock</option>
                                   <option value="mineral">Mineral</option>
                                   <option value="fossil">Fossil</option>
@@ -433,100 +244,49 @@ export default function FilterSearch() {
                               )}
                             </div>
                             <div className="px-2 py-2">
-                              <div className=" flex flex-row justify-between">
-                                Building
-                                <svg
-                                  width="30"
-                                  height="30"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  onClick={() => {
-                                    setToggleBuilding(!toggleBuidling);
-                                  }}
-                                >
-                                  <g id="SVGRepo_bgCarrier" strokeWidth="0" />
-
-                                  <g
-                                    id="SVGRepo_tracerCarrier"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-
-                                  <g id="SVGRepo_iconCarrier">
-                                    <path
-                                      d="M6 12H18M12 6V18"
-                                      stroke="#d1d5db"
-                                      strokeWidth="2"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    />
-                                  </g>
-                                </svg>
-                              </div>
+                              <PlusSignToggler
+                                toggle={toggleBuidling}
+                                setToggle={setToggleBuilding}
+                                label="Building"
+                              />
                               {toggleBuidling && (
                                 <Field
                                   name="storageBuilding"
                                   as="select"
-                                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm md:rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                  className="filter-field"
                                 >
-                                  <option value="">select</option>
-                                  <option value="CH">CH</option>
-                                  <option value="PS">PS</option>
+                                  <option value="">
+                                    select storage building
+                                  </option>
+                                  <option value="PS">
+                                    PS (Physical Science)
+                                  </option>
+                                  <option value="CH">CH (Colonial Hall)</option>
                                 </Field>
                               )}
                             </div>
                             <div className="px-2 py-2">
-                              <div className=" flex flex-row justify-between">
-                                Room
-                                <svg
-                                  width="30"
-                                  height="30"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  onClick={() => {
-                                    setToggleRoom(!toggleRoom);
-                                  }}
-                                >
-                                  <g id="SVGRepo_bgCarrier" strokeWidth="0" />
-
-                                  <g
-                                    id="SVGRepo_tracerCarrier"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-
-                                  <g id="SVGRepo_iconCarrier">
-                                    <path
-                                      d="M6 12H18M12 6V18"
-                                      stroke="#d1d5db"
-                                      strokeWidth="2"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    />
-                                  </g>
-                                </svg>
-                              </div>
+                              <PlusSignToggler
+                                toggle={toggleRoom}
+                                setToggle={setToggleRoom}
+                                label="Room"
+                              />
                               {toggleRoom && (
                                 <Field
                                   name="storageRoom"
                                   as="select"
-                                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm md:rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                  className="filter-field"
                                 >
-                                  <option value="">select</option>
-                                  <option value="room1">Room1</option>
-                                  <option value="room2">Room2</option>
-                                  <option value="room3">Room3</option>
+                                  <option value="">select storage room</option>
+                                  <option value="room1">Room #1</option>
+                                  <option value="room2">Room #2</option>
+                                  <option value="room3">Room #3</option>
                                 </Field>
                               )}
                             </div>
                           </div>
                           <div className="py-2">
-                            <button
-                              type="submit"
-                              className="w-full bg-secondary-100 hover:bg-secondary-200 text-white font-bold py-2 px-4 md:rounded"
-                            >
+                            <button type="submit" className="submit-search-btn">
                               Search
                             </button>
                           </div>
@@ -536,33 +296,44 @@ export default function FilterSearch() {
                   </div>
                 </div>
               </div>
-              <div className="md:grow">
-                <div className="col-start-0 col-span-12 md:col-start-2 md:col-span-3 lg:col-start-2 lg:col-span-3 background-filter rounded">
+              {/* result set */}
+              <div className="md:flex-grow">
+                {" "}
+                <div className="flex flex-col w-full justify-center items-ceneter background-filter rounded">
                   {init && (
-                    <div className="col-start-1 col-span-12">
+                    <div className="">
                       <div className="m-6 text-center">Search Results</div>
                     </div>
                   )}
                   {loading && (
-                    <div className="col-start-7">
-                      <SpinnerComponent />
+                    <div className="">
+                      <div className="flex justify-center">
+                        <div>
+                          <SpinnerComponent />
+                        </div>
+                      </div>
                     </div>
                   )}
                   {!loading && (
-                    <div className="col-start-1 col-span-12">
+                    <div className="">
                       {samples.length > 0 &&
                         samples.map((sample) => (
-                          <div key={sample.id} className="m-2">
-                            <SampleCard
-                              sample={sample}
-                              onDelete={handleOnDelete}
-                            />
-                          </div>
+                          <Link
+                            key={sample.id}
+                            href={`/search/filters/${sample.id}`}
+                          >
+                            <div className="m-2">
+                              <SampleCard
+                                sample={sample}
+                                onDelete={handleOnDelete}
+                              />
+                            </div>
+                          </Link>
                         ))}
                     </div>
                   )}
                   {!loading && samples.length === 0 && init && (
-                    <div className="col-start-7">No Results Found</div>
+                    <div className="">No Results Found</div>
                   )}
                 </div>
               </div>
