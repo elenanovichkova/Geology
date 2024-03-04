@@ -14,7 +14,7 @@ export default function samplecard({ sample, onDelete }: SamplCardProp) {
           <div className="flex flex-col md:flex-row items-stretch">
             <div className="">
               <img
-                className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
+                className="object-cover w-full rounded-t-lg hidden md:block h-10 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
                 src="/sample_image.jpg"
                 alt=""
               />
