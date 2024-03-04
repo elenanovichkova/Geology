@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
 import { Sample } from "../../services/api";
-import IconButton from "../iconbutton/iconbutton.component";
+import IconButton from "@/components/iconbutton/iconbutton.component";
 import { useState } from "react";
-import ConfirmDialog from "@/components/confirm/confirm.component";
+import ConfirmDialog from "@/components/confirmdialog/confirmdialog.component";
 
 type SamplCardProp = {
   sample: Sample;
