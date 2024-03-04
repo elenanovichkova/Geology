@@ -8,7 +8,7 @@ type SamplCardProp = {
 
 export default function samplecard({ sample, onDelete }: SamplCardProp) {
   return (
-    <div className="mb-3 bg-white border border-gray-200 rounded-lg shadow  hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+    <div className="mb-3 bg-white border border-gray-200 rounded-lg shadow   dark:border-gray-700 dark:bg-gray-800 ">
       <div className="flex items-stretch">
         <div className="basis-full">
           <div className="flex flex-col md:flex-row items-stretch">
@@ -31,25 +31,27 @@ export default function samplecard({ sample, onDelete }: SamplCardProp) {
                         </h5>
                       </div>
                       <div>
-                        <div>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth="1.5"
-                            stroke="currentColor"
-                            className="w-6 h-6"
-                            onClick={() => {
-                              if (sample.id) return onDelete(sample.id);
-                              return;
-                            }}
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M6 18 18 6M6 6l12 12"
-                            />
-                          </svg>
+                        <div className="w-8 h-8">
+                          <div className="flex justify-center items-center w-full h-full">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth="1.5"
+                              stroke="currentColor"
+                              className="w-6 h-6 cursor-pointer hover:h-8 hover:w-8"
+                              onClick={() => {
+                                if (sample.id) return onDelete(sample.id);
+                                return;
+                              }}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M6 18 18 6M6 6l12 12"
+                              />
+                            </svg>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -63,13 +65,25 @@ export default function samplecard({ sample, onDelete }: SamplCardProp) {
                 </div>
                 <div className="">
                   <div className="basis-full">
-                    <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
+                    <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700 m-2"></hr>
                   </div>
-                  <div className="basis-full">
-                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                      <span className="font-thin">Description: </span>
-                      <span>{sample.longDescription}</span>
-                    </p>
+                  <div className="flex justify-between">
+                    <div>
+                      <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                        <span className="font-thin">Description: </span>
+                        <span>{sample.longDescription}</span>
+                      </p>
+                    </div>
+                    <div>
+                      <Link href={`/search/filters/${sample.id}`}>
+                        <button
+                          type="button"
+                          className="w-full bg-secondary-100 hover:bg-secondary-200 text-white font-bold py-1 px-2 md:rounded"
+                        >
+                          DETAIL
+                        </button>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>

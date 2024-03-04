@@ -4,6 +4,7 @@ import Modal from "@/components/modal/modal.component";
 import SampledetailComponent from "@/components/sampledetail/sampledetail.component";
 import { API, Sample } from "@/services/api";
 import { useEffect, useState } from "react";
+import Spinner from "@/components/spinner/spinner.component";
 
 type Props = {
   params: {
@@ -22,9 +23,11 @@ export default function SampleDetailModal({ params }: Props) {
 
   if (!sample) {
     return (
-      <div className="flex flex-col">
-        <div className="items-center">Loading...</div>
-      </div>
+      <Modal>
+        <div className="flex justify-center">
+          <Spinner />
+        </div>
+      </Modal>
     );
   }
 
