@@ -15,6 +15,8 @@ import SpinnerComponent from "@/components/spinner/spinner.component";
 import XlsUploader from "@/components/xlsuploader/xlsuploader.component";
 import TextInputField from "@/components/textinputfield/textinputfield.component";
 import OtherOption from "@/components/otheroption/otheroption.component";
+import CheckboxInput from "@/components/checkboxinput/checkboxinput.component";
+import SmallLabel from "@/components/smalllabel/smalllabel.component";
 
 const NewSampleSchema = Yup.object().shape({
   category: Yup.string().max(255, "Too Long!").required("Required"),
@@ -123,8 +125,8 @@ export default function NewSample() {
         {(props: FormikProps<FileUpload>) => {
           return (
             <Form>
-              <fieldset className="border border-black p-4">
-                <fieldset className="border border-black p-4">
+              <fieldset className="fieldset-border">
+                <fieldset className="fieldset-border">
                   <legend className="float-none w-auto text-xl">
                     Batch Upload
                   </legend>
@@ -221,9 +223,9 @@ export default function NewSample() {
           console.log("=============", props.isSubmitting);
           return (
             <Form>
-              <fieldset className="border border-black p-4">
-                <fieldset className="border border-black p-4">
-                  <legend className="float-none w-auto text-xl">
+              <fieldset className="fieldset-border">
+                <fieldset className="fieldset-border">
+                  <legend className="fieldset-legend-outer">
                     Sample Identification
                   </legend>
                   <div>
@@ -271,8 +273,8 @@ export default function NewSample() {
                     characters./,:-#_"
                   />
                 </fieldset>
-                <fieldset className="border border-black p-4">
-                  <legend className="float-none w-auto p-2  text-xl">
+                <fieldset className="fieldset-border">
+                  <legend className="fieldset-legend-inner">
                     Collector Info
                   </legend>
                   <TextInputField
@@ -297,9 +299,7 @@ export default function NewSample() {
                       <option value="Ben">Ben</option>
                       <option value="Other">Other</option>
                     </Field>
-                    <small className="font-thin text-sm block text-muted">
-                      From the dropdown, select an Advisor.
-                    </small>
+                    <SmallLabel label="From the dropdown, select an Advisor." />
                   </div>
                   {props.values.advisorName === "Other" && (
                     <OtherOption
@@ -322,47 +322,28 @@ export default function NewSample() {
                       </label>
                     </div>
                     <div>
-                      <small className="font-thin text-sm block text-muted">
-                        Select all that apply.
-                      </small>
+                      <SmallLabel label="Select all that apply." />
                     </div>
                     <div>
-                      <label
-                        className="inline-block mr-2"
-                        htmlFor="collectionReason"
-                      >
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="collectionReason"
-                          value="teaching"
-                        />
-                        Teaching
-                      </label>
-                      <label
-                        className="inline-block mr-2"
-                        htmlFor="collectionReason"
-                      >
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="collectionReason"
-                          value="research"
-                        />
-                        Research
-                      </label>
-                      <label
-                        className="inline-block mr-2"
-                        htmlFor="collectionReason"
-                      >
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="collectionReason"
-                          value="other"
-                        />
-                        Other
-                      </label>
+                      <CheckboxInput
+                        name="collectionReason"
+                        type={"checkbox"}
+                        value={"teaching"}
+                        label={"Teaching"}
+                      />
+                      <CheckboxInput
+                        name="collectionReason"
+                        type={"checkbox"}
+                        value={"research"}
+                        label={"Research"}
+                      />
+                      <CheckboxInput
+                        name="collectionReason"
+                        type={"checkbox"}
+                        value={"other"}
+                        label={"Other"}
+                      />
+
                       {props.values.collectionReason &&
                         props.values.collectionReason.find(
                           (reason) => reason == "other"
@@ -376,15 +357,15 @@ export default function NewSample() {
                     </div>
                   </div>
                 </fieldset>
-                <fieldset className="border border-black p-4">
-                  <legend className="float-none w-auto p-2  text-xl">
+                <fieldset className="fieldset-border">
+                  <legend className="fieldset-legend-inner">
                     Sample Collection Location
                   </legend>
 
                   <MyGoogleMap mode="create" />
                 </fieldset>
-                <fieldset className="border border-black p-4">
-                  <legend className="float-none w-auto p-2  text-xl">
+                <fieldset className="fieldset-border">
+                  <legend className="fieldset-legend-inner">
                     Sample Specs
                   </legend>
                   <TextInputField
@@ -401,47 +382,33 @@ export default function NewSample() {
                       <label className="mb-1 block">Sample Form</label>
                     </div>
                     <div>
-                      <small className="font-thin text-sm block text-muted">
-                        Select all that apply.
-                      </small>
+                      <SmallLabel label="Select all that apply." />
                     </div>
                     <div>
-                      <label className="inline-block mr-2" htmlFor="sampleForm">
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="sampleForm"
-                          value="handSample"
-                        />
-                        Hand Sample
-                      </label>
-                      <label className="inline-block mr-2" htmlFor="sampleForm">
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="sampleForm"
-                          value="mineralSeparate"
-                        />
-                        Mineral Separate
-                      </label>
-                      <label className="inline-block mr-2" htmlFor="sampleForm">
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="sampleForm"
-                          value="thinSection"
-                        />
-                        Thin Section
-                      </label>
-                      <label className="inline-block mr-2" htmlFor="sampleForm">
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="sampleForm"
-                          value="other"
-                        />
-                        Other
-                      </label>
+                      <CheckboxInput
+                        name="sampleForm"
+                        type={"checkbox"}
+                        value={"handSample"}
+                        label={"Hand Sample"}
+                      />
+                      <CheckboxInput
+                        name="sampleForm"
+                        type={"checkbox"}
+                        value={"mineralSeparate"}
+                        label={"Mineral Separate"}
+                      />
+                      <CheckboxInput
+                        name="sampleForm"
+                        type={"checkbox"}
+                        value={"thinSection"}
+                        label={"Thin Section"}
+                      />
+                      <CheckboxInput
+                        name="sampleForm"
+                        type={"checkbox"}
+                        value={"other"}
+                        label={"Other"}
+                      />
                       {props.values.sampleForm &&
                         props.values.sampleForm.find(
                           (reason) => reason == "other"
@@ -460,65 +427,45 @@ export default function NewSample() {
                       <label className="mb-1 block">Sample Type</label>
                     </div>
                     <div>
-                      <small className="font-thin text-sm block text-muted">
-                        Select all that apply.
-                      </small>
+                      <SmallLabel label="Select all that apply." />
                     </div>
                     <div>
-                      <label className="inline-block mr-2" htmlFor="sampleType">
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="sampleType"
-                          value="rock"
-                        />
-                        Rock
-                      </label>
-                      <label className="inline-block mr-2" htmlFor="sampleType">
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="sampleType"
-                          value="mineral"
-                        />
-                        Mineral
-                      </label>
-                      <label className="inline-block mr-2" htmlFor="sampleType">
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="sampleType"
-                          value="fossil"
-                        />
-                        Fossil
-                      </label>
-                      <label className="inline-block mr-2" htmlFor="sampleType">
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="sampleType"
-                          value="soil"
-                        />
-                        Soil
-                      </label>
-                      <label className="inline-block mr-2" htmlFor="sampleType">
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="sampleType"
-                          value="water"
-                        />
-                        Water
-                      </label>
-                      <label className="inline-block mr-2" htmlFor="sampleType">
-                        <Field
-                          className="mb-2 mr-2"
-                          type="checkbox"
-                          name="sampleType"
-                          value="other"
-                        />
-                        Other
-                      </label>
+                      <CheckboxInput
+                        name="sampleType"
+                        type={"checkbox"}
+                        value={"rock"}
+                        label={"Rock"}
+                      />
+                      <CheckboxInput
+                        name="sampleType"
+                        type={"checkbox"}
+                        value={"mineral"}
+                        label={"Mineral"}
+                      />
+                      <CheckboxInput
+                        name="sampleType"
+                        type={"checkbox"}
+                        value={"fossil"}
+                        label={"Fossil"}
+                      />
+                      <CheckboxInput
+                        name="sampleType"
+                        type={"checkbox"}
+                        value={"soil"}
+                        label={"Soil"}
+                      />
+                      <CheckboxInput
+                        name="sampleType"
+                        type={"checkbox"}
+                        value={"water"}
+                        label={"Water"}
+                      />
+                      <CheckboxInput
+                        name="sampleType"
+                        type={"checkbox"}
+                        value={"other"}
+                        label={"Other"}
+                      />
                       {props.values.sampleType &&
                         props.values.sampleType.find(
                           (reason) => reason == "other"
@@ -544,8 +491,8 @@ export default function NewSample() {
                   />
                 </fieldset>
 
-                <fieldset className="border border-black p-4">
-                  <legend className="float-none w-auto p-2  text-xl">
+                <fieldset className="fieldset-border">
+                  <legend className="fieldset-legend-inner">
                     Storage Details
                   </legend>
                   <div className="mb-3">
@@ -562,10 +509,10 @@ export default function NewSample() {
                       <option value="CH">CH (Colonial Hall)</option>
                       <option value="Other">Other</option>
                     </Field>
-                    <small className="font-thin text-sm block text-muted">
-                      From the dropdown, select which building this sample will
-                      be stored in.
-                    </small>
+                    <SmallLabel
+                      label="From the dropdown, select which building this sample will
+                      be stored in."
+                    />
                   </div>
                   {props.values.storageBuilding === "Other" && (
                     <OtherOption
@@ -589,10 +536,10 @@ export default function NewSample() {
                       <option value="3">Room #3</option>
                       <option value="Other">Other</option>
                     </Field>
-                    <small className="font-thin text-sm block text-muted">
-                      From the dropdown, select which room this sample will be
-                      stored in.
-                    </small>
+                    <SmallLabel
+                      label="From the dropdown, select which room this sample will be
+                      stored in."
+                    />
                   </div>
                   {props.values.storageRoom === "Other" && (
                     <OtherOption
@@ -616,14 +563,10 @@ export default function NewSample() {
                   />
                 </fieldset>
                 {!props.isValid && props.initialTouched && (
-                  <div className="text-center mt-2 text-red-500">
-                    CORRECT ERRORS
-                  </div>
+                  <div className="entry-error">CORRECT ERRORS</div>
                 )}
                 {props.status === "ERROR" && (
-                  <div className="text-center mt-2 text-red-500">
-                    Server Error
-                  </div>
+                  <div className="entry-error">Server Error</div>
                 )}
                 {props.status !== "submitting" && (
                   <div className="text-center mt-2">
