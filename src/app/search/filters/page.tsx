@@ -318,17 +318,13 @@ export default function FilterSearch() {
                     <div className="">
                       {samples.length > 0 &&
                         samples.map((sample) => (
-                          <Link
-                            key={sample.id}
-                            href={`/search/filters/${sample.id}`}
-                          >
-                            <div className="m-2">
-                              <SampleCard
-                                sample={sample}
-                                onDelete={handleOnDelete}
-                              />
-                            </div>
-                          </Link>
+                          <div key={sample.id}>
+                            <SampleCard
+                              sample={sample}
+                              onDelete={handleOnDelete}
+                              context="/search/filters/"
+                            />
+                          </div>
                         ))}
                     </div>
                   )}

@@ -1,12 +1,23 @@
+"use client";
 import Link from "next/link";
 import { Sample } from "../../services/api";
+import IconButton from "../iconbutton/iconbutton.component";
+import { useState } from "react";
+import ConfirmDialog from "@/components/confirm/confirm.component";
 
 type SamplCardProp = {
   sample: Sample;
   onDelete: (id: number) => void;
+  context: string;
 };
 
-export default function samplecard({ sample, onDelete }: SamplCardProp) {
+export default function samplecard({
+  sample,
+  onDelete,
+  context,
+}: SamplCardProp) {
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
   return (
     <div className="mb-3 bg-white border border-gray-200 rounded-lg shadow   dark:border-gray-700 dark:bg-gray-800 ">
       <div className="flex items-stretch">
@@ -32,7 +43,46 @@ export default function samplecard({ sample, onDelete }: SamplCardProp) {
                       </div>
                       <div>
                         <div className="w-8 h-8">
-                          <div className="flex justify-center items-center w-full h-full">
+                          <div>
+                            <IconButton
+                              aria-label="delete"
+                              onClick={() => setConfirmOpen(true)}
+                            >
+                              <div className="flex justify-center items-center w-full h-full">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth="1.5"
+                                  stroke="currentColor"
+                                  className="w-6 h-6 cursor-pointer hover:h-8 hover:w-8"
+                                  // onClick={() => {
+                                  //   if (sample.id) return onDelete(sample.id);
+                                  //   return;
+                                  // }}
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M6 18 18 6M6 6l12 12"
+                                  />
+                                </svg>
+                              </div>
+                            </IconButton>
+                            <ConfirmDialog
+                              title="Delete Post?"
+                              open={confirmOpen}
+                              onClose={() => setConfirmOpen(false)}
+                              onConfirm={() => {
+                                console.log("about to delete the item");
+                                // if (sample.id) return onDelete(sample.id);
+                                return;
+                              }}
+                            >
+                              Are you sure you want to delete this post?
+                            </ConfirmDialog>
+                          </div>
+                          {/* <div className="flex justify-center items-center w-full h-full">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
@@ -51,7 +101,7 @@ export default function samplecard({ sample, onDelete }: SamplCardProp) {
                                 d="M6 18 18 6M6 6l12 12"
                               />
                             </svg>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                     </div>
@@ -75,7 +125,7 @@ export default function samplecard({ sample, onDelete }: SamplCardProp) {
                       </p>
                     </div>
                     <div>
-                      <Link href={`/search/filters/${sample.id}`}>
+                      <Link href={`${context}${sample.id}`}>
                         <button
                           type="button"
                           className="w-full bg-secondary-100 hover:bg-secondary-200 text-white font-bold py-1 px-2 md:rounded"
