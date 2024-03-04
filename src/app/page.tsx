@@ -1,14 +1,50 @@
+"use client";
 import LoginButton from "@/components/loginButton/loginButton.component";
+import { API } from "@/services/api";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [auth, setAuth] = useState(false);
+  const searchParams = useSearchParams();
+  const accessCode = searchParams.get("code");
+  // useEffect(() => {
+  //   console.log("===== auth access code", accessCode);
+  //   if (accessCode) {
+  //     API.retrieveAuthToken(accessCode)
+  //       .then(() => {
+  //         setAuth(true);
+  //       })
+  //       .catch(() => alert("cannot login"));
+  //   }
+  // }, []);
+
   return (
     <main className="flex min-h-screen flex-col ">
       <div className="basis-1/12  items-center justify-between pt-2 pl-8 pr-8 sm:pt-4 sm:pl-16 sm:pr-16">
         <div className="grid md:grid-cols-6 md:gap-4">
           <div className="col-start-0 col-span-12 md:col-start-1 md:col-span-6 lg:col-start-3 lg:col-span-4">
-            <LoginButton />
+            {!auth && <LoginButton />}
+            {auth && (
+              <div className="flex justify-end">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                  />
+                </svg>
+              </div>
+            )}
           </div>
         </div>
       </div>
