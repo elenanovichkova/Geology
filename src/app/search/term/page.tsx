@@ -76,10 +76,6 @@ export default function SearchTerm() {
                   actions.setSubmitting(false);
                   setLoading(false);
                 });
-              // setTimeout(() => {
-              //   setSamples(samplesMock);
-              //   actions.setSubmitting(false);
-              // }, 100);
             }}
           >
             {(props: FormikProps<SearchFulltextParams>) => (
