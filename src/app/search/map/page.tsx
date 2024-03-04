@@ -12,6 +12,8 @@ import {
 import SampleCard from "@/components/samplecard/samplecard.component";
 import Link from "next/link";
 import * as Yup from "yup";
+import SmallLabel from "@/components/smalllabel/smalllabel.component";
+import SearchOptionButton from "@/components/searchoptionsbutton/searchoptionbutton.component";
 
 const SearchMapValidationSchema = Yup.object().shape({
   locationRectangleBounds: Yup.object()
@@ -39,22 +41,14 @@ export default function SearchMap() {
         <div className="mb-4 md:mb-0 md:col-start-2 md:col-span-1 lg:col-start-2 lg:col-span-1">
           <div className="text-end">
             <Link href="/search/filters">
-              <button className="text-primary btn border-primary md:border-2 hover:bg-primary hover:text-white fill-current transition ease-out duration-500">
-                <div className="">
-                  <span className="">Filter Search</span>
-                </div>
-              </button>
+              <SearchOptionButton text="Filter Search" />
             </Link>
           </div>
         </div>
         <div className="md:col-start-3 md:col-span-1 lg:col-start-3 lg:col-span-1">
           <div className="text-start">
             <Link href="/search/term">
-              <button className="text-primary btn border-primary md:border-2 hover:bg-primary hover:text-white fill-current transition ease-out duration-500">
-                <div className="">
-                  <span className="">Text Search</span>
-                </div>
-              </button>
+              <SearchOptionButton text="Text Search" />
             </Link>
           </div>
         </div>
