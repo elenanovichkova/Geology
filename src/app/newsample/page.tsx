@@ -48,13 +48,17 @@ type FileExtensions = {
 };
 
 function isValidFileType(fileName: string): boolean {
-  return fileName.endsWith(".xlsx");
+  console.log("validating file name", fileName);
+  if (fileName) {
+    return fileName.endsWith(".xlsx");
+  }
+  return false;
 }
 
 const BatchUploadSchema = Yup.object().shape({
   file: Yup.mixed().test(
     "is-valid-type",
-    "Not a valid file type, only xls format is allowed",
+    "Not a valid file type, only xlsx format is allowed",
     (value: any) => {
       return isValidFileType(value && value.name.toLowerCase());
     }
@@ -91,17 +95,24 @@ export default function NewSample() {
                       API.batchUpload(presignedURL)
                         .then((status) => {
                           alert("success");
+                          actions.setStatus("success");
+                          actions.setSubmitting(false);
+                          actions.resetForm();
+                          router.push("/newsample/successupload");
                         })
                         .catch((error) => {
                           alert("Batch Upload Error");
+                          actions.setSubmitting(false);
                         })
                     )
                     .catch((error) => {
                       alert("cannot upload file");
+                      actions.setSubmitting(false);
                     });
               })
               .catch((error) => {
                 alert("cannot get presigned url");
+                actions.setSubmitting(false);
               });
           }
           // setTimeout(() => {
@@ -121,14 +132,19 @@ export default function NewSample() {
                     <label className="mb-1 inline-block">
                       <XlsUploader />
                     </label>
-                    {props.errors.file && props.touched.file ? (
+                    {props.errors.file && props.values.file ? (
                       <div className="text-red-500">{props.errors.file}</div>
                     ) : null}
-                    {props.isValid && props.values.file && (
-                      <button className="inline-block" type="submit">
-                        Submit
-                      </button>
-                    )}
+                    {props.isValid &&
+                      props.values.file &&
+                      !props.isSubmitting && (
+                        <button
+                          type="submit"
+                          className="bg-secondary-100 hover:bg-secondary-200 text-white font-bold py-2 px-4 rounded ml-3"
+                        >
+                          SUBMIT
+                        </button>
+                      )}
                   </div>
                 </fieldset>
               </fieldset>

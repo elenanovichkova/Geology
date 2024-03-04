@@ -33,6 +33,12 @@ export default function SearchMap() {
   const [loading, setLoading] = useState(false);
   const [init, setInit] = useState(false);
 
+  const handleOnDelete = (id: number) => {
+    API.deleteSample(id).then(() => {
+      alert("successfully deleted");
+    });
+  };
+
   return (
     <div>
       <div className="grid md:grid-cols-4 md:gap-4 pb-4">
@@ -146,7 +152,7 @@ export default function SearchMap() {
             {samples.length > 0 &&
               samples.map((sample) => (
                 <Link key={sample.id} href={`/search/map/${sample.id}`}>
-                  <SampleCard {...sample} />
+                  <SampleCard sample={sample} onDelete={handleOnDelete} />
                 </Link>
               ))}
           </div>

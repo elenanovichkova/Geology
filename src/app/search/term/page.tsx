@@ -19,6 +19,18 @@ export default function SearchTerm() {
   const [loading, setLoading] = useState(false);
   const [init, setInit] = useState(false);
 
+  const handleOnDelete = (id: number) => {
+    API.deleteSample(id).then(() => {
+      alert("successfully deleted");
+      // let copySample = samples.reduce((accumulator, currentValue) => {
+      //   if(currentValue.id === id){
+      //     return accumulator;
+      //   }
+      //   return accumulator.push(currentValue)
+      // }, []);
+    });
+  };
+
   return (
     <div>
       <div className="grid md:grid-cols-6 md:gap-4">
@@ -118,7 +130,7 @@ export default function SearchTerm() {
                 {samples.length > 0 &&
                   samples.map((sample) => (
                     <Link key={sample.id} href={`/search/term/${sample.id}`}>
-                      <SampleCard {...sample} />
+                      <SampleCard sample={sample} onDelete={handleOnDelete} />
                     </Link>
                   ))}
               </div>

@@ -7,7 +7,7 @@ export default function Home() {
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
     setFieldValue("file", file);
-    setFieldTouched("file", true);
+    //setFieldTouched("file", true);
   };
 
   return (

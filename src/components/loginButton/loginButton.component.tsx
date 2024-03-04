@@ -1,10 +1,12 @@
 import Link from "next/link";
 
+const authUrl = process.env.NEXT_PUBLIC_COGNITO_AUTH_URL;
+
 export default function LoginButton(): JSX.Element {
   return (
     <div className="flex justify-end">
       <div className="">
-        <Link href="/login">
+        <Link href={authUrl!}>
           <button className="text-primary btn border-primary md:border-2 hover:bg-primary hover:text-white fill-current transition ease-out duration-500">
             <span className="">
               Admin Login

@@ -20,6 +20,12 @@ export default function FilterSearch() {
   const [loading, setLoading] = useState(false);
   const [init, setInit] = useState(false);
 
+  const handleOnDelete = (id: number) => {
+    API.deleteSample(id).then(() => {
+      alert("successfully deleted");
+    });
+  };
+
   return (
     <div className="flex flex-col">
       <div className="items-center justify-between">
@@ -537,7 +543,10 @@ export default function FilterSearch() {
                           href={`/search/filters/${sample.id}`}
                         >
                           <div className="m-2">
-                            <SampleCard {...sample} />
+                            <SampleCard
+                              sample={sample}
+                              onDelete={handleOnDelete}
+                            />
                           </div>
                         </Link>
                       ))}
