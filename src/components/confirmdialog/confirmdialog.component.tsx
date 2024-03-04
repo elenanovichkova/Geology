@@ -1,4 +1,4 @@
-import Dialog from "@/components/basicdialog/basicdialog.component";
+import BasicDialog from "@/components/basicdialog/basicdialog.component";
 import Button from "@/components/button/button.component";
 interface Props {
   title: string;
@@ -14,20 +14,21 @@ export default function Confirm(props: Props) {
   }
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <BasicDialog open={open} onClose={onClose}>
       <h2 className="text-xl">{title}</h2>
       <div className="py-5">{children}</div>
-      <div className="flex justify-end">
+      <div className="flex justify-center">
         <div className="p-1">
           <Button
             onClick={() => onClose()}
-            className="bg-secondary hover:bg-secondary-light"
+            className="bg-secondary-100 hover:bg-secondary-200 text-white font-bold py-2 px-4 rounded ml-3"
           >
             No
           </Button>
         </div>
         <div className="p-1">
           <Button
+            className="bg-secondary-100 hover:bg-secondary-200 text-white font-bold py-2 px-4 rounded ml-3"
             onClick={() => {
               onClose();
               onConfirm();
@@ -37,6 +38,6 @@ export default function Confirm(props: Props) {
           </Button>
         </div>
       </div>
-    </Dialog>
+    </BasicDialog>
   );
 }

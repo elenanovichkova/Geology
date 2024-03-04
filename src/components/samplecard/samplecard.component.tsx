@@ -4,6 +4,7 @@ import { Sample } from "../../services/api";
 import IconButton from "@/components/iconbutton/iconbutton.component";
 import { useState } from "react";
 import ConfirmDialog from "@/components/confirmdialog/confirmdialog.component";
+import ExitIcon from "../exiticon/exiticon.component";
 
 type SamplCardProp = {
   sample: Sample;
@@ -42,39 +43,23 @@ export default function samplecard({
                         </h5>
                       </div>
                       <div>
-                        <div className="w-8 h-8">
-                          <div>
-                            <IconButton
-                              aria-label="delete"
-                              onClick={() => setConfirmOpen(true)}
-                            >
-                              <div className="flex justify-center items-center w-full h-full">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth="1.5"
-                                  stroke="currentColor"
-                                  className="w-6 h-6 cursor-pointer hover:h-8 hover:w-8"
-                                  // onClick={() => {
-                                  //   if (sample.id) return onDelete(sample.id);
-                                  //   return;
-                                  // }}
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M6 18 18 6M6 6l12 12"
-                                  />
-                                </svg>
-                              </div>
-                            </IconButton>
+                        <div className="w-10 h-10">
+                          <div className="relative">
+                            <span className="absolute top-0 right-0">
+                              <IconButton onClick={() => setConfirmOpen(true)}>
+                                <ExitIcon />
+                              </IconButton>
+                            </span>
+
                             <ConfirmDialog
                               title="Delete Post?"
                               open={confirmOpen}
                               onClose={() => setConfirmOpen(false)}
                               onConfirm={() => {
-                                console.log("about to delete the item");
+                                console.log(
+                                  "about to delete the item",
+                                  sample.id
+                                );
                                 // if (sample.id) return onDelete(sample.id);
                                 return;
                               }}
@@ -82,26 +67,6 @@ export default function samplecard({
                               Are you sure you want to delete this post?
                             </ConfirmDialog>
                           </div>
-                          {/* <div className="flex justify-center items-center w-full h-full">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth="1.5"
-                              stroke="currentColor"
-                              className="w-6 h-6 cursor-pointer hover:h-8 hover:w-8"
-                              onClick={() => {
-                                if (sample.id) return onDelete(sample.id);
-                                return;
-                              }}
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M6 18 18 6M6 6l12 12"
-                              />
-                            </svg>
-                          </div> */}
                         </div>
                       </div>
                     </div>
