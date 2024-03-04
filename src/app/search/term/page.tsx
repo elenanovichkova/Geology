@@ -13,6 +13,7 @@ import { useState } from "react";
 import samplesMock from "../../../mock/results.json";
 import { Sample, API, SearchFulltextParams } from "@/services/api";
 import Link from "next/link";
+import SearchOptionButton from "@/components/searchoptionsbutton/searchoptionbutton.component";
 
 export default function SearchTerm() {
   const [samples, setSamples] = useState<Sample[]>([]);
@@ -25,22 +26,14 @@ export default function SearchTerm() {
         <div className="mb-4 md:mb-0 md:col-start-3 md:col-span-1 lg:col-start-3 lg:col-span-1">
           <div className="text-end">
             <Link href="/search/filters">
-              <button className="text-primary btn border-primary md:border-2 hover:bg-primary hover:text-white fill-current transition ease-out duration-500">
-                <div className="">
-                  <span className="">Filter Search</span>
-                </div>
-              </button>
+              <SearchOptionButton text="Filter Search" />
             </Link>
           </div>
         </div>
         <div className="md:col-start-4 md:col-span-1 lg:col-start-4 lg:col-span-1">
           <div className="text-start">
             <Link href="/search/map">
-              <button className="text-primary btn border-primary md:border-2 hover:bg-primary hover:text-white fill-current transition ease-out duration-500">
-                <div className="">
-                  <span className="">Map Search</span>
-                </div>
-              </button>
+              <SearchOptionButton text="Map Search" />
             </Link>
           </div>
         </div>
