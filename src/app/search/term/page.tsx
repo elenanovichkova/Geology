@@ -35,14 +35,14 @@ export default function SearchTerm() {
   return (
     <div>
       <div className="grid md:grid-cols-6 md:gap-4">
-        <div className="mb-4 md:mb-0 md:col-start-3 md:col-span-1 lg:col-start-3 lg:col-span-1">
+        <div className="mb-4 md:mb-0 md:col-start-3 md:col-span-1 lg:hidden ">
           <div className="text-end">
             <Link href="/search/filters">
               <SearchOptionButton text="Filter Search" />
             </Link>
           </div>
         </div>
-        <div className="md:col-start-4 md:col-span-1 lg:col-start-4 lg:col-span-1">
+        <div className="md:col-start-4 md:col-span-1 lg:hidden ">
           <div className="text-start">
             <Link href="/search/map">
               <SearchOptionButton text="Map Search" />

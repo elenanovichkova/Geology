@@ -32,11 +32,11 @@ export default function FilterSearch() {
     <div className="flex flex-col">
       <div className="items-center justify-between">
         <div className="card hover:shadow-lg">
-          <div className="card-body">
+          <div className="card-body overflow-x-auto">
             {/* search links */}
-            <div className="flex justify-between md:justify-center mb-3">
+            <div className="flex justify-between md:justify-center mb-3 lg:hidden">
               <div>
-                <div className="md:ml-2 md:mr-2">
+                <div className="md:ml-2 md:mr-2 ">
                   <Link href="/search/map">
                     <SearchOptionButton text="Map Search" />
                   </Link>
@@ -297,12 +297,14 @@ export default function FilterSearch() {
                 </div>
               </div>
               {/* result set */}
-              <div className="md:flex-grow">
+              <div className="md:flex-grow background-filter rounded ml-2">
                 {" "}
-                <div className="flex flex-col w-full justify-center items-ceneter background-filter rounded">
+                <div className="flex flex-col w-full justify-center items-ceneter">
                   {init && (
                     <div className="">
-                      <div className="m-6 text-center">Search Results</div>
+                      <div className="mx-6 mt-4 mb-4 text-center">
+                        Search Results
+                      </div>
                     </div>
                   )}
                   {loading && (
@@ -315,7 +317,7 @@ export default function FilterSearch() {
                     </div>
                   )}
                   {!loading && (
-                    <div className="">
+                    <div className="mx-1">
                       {samples.length > 0 &&
                         samples.map((sample) => (
                           <div key={sample.id}>

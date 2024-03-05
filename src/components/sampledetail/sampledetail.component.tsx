@@ -1,4 +1,9 @@
+"use client";
 import { Sample } from "@/services/api";
+import { Router, useRouter } from "next/router";
+import { MouseEventHandler, useCallback, useRef } from "react";
+import IconButton from "../iconbutton/iconbutton.component";
+import ExitIcon from "../exiticon/exiticon.component";
 
 export default function SampleDetail(sample: Sample) {
   return (
@@ -7,7 +12,7 @@ export default function SampleDetail(sample: Sample) {
         <div className="grid md:grid-cols-6 md:gap-4">
           <div className="col-start-0 col-span-12 md:col-start-1 md:col-span-6">
             <div className="card hover:shadow-lg">
-              <div className="card-body">
+              <div className="card-body ">
                 <div>
                   <div className="px-4 sm:px-0">
                     <h3 className="text-base font-semibold leading-7 text-gray-900">
@@ -18,7 +23,9 @@ export default function SampleDetail(sample: Sample) {
                       )}
                     </h3>
                     <span className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-                      {sample.category}
+                      {sample.category == "singleSpecimen"
+                        ? "Single Specimen"
+                        : `${sample.category}`}
                     </span>
                   </div>
                   <div className="mt-6 border-t border-gray-300">
