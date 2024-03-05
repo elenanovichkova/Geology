@@ -94,7 +94,7 @@ export interface FileParams {
 
 export class API {
     public static readonly API_URL = "https://3d9e678b12.execute-api.us-east-1.amazonaws.com/prod";
-    private static AUTH_TOKEN = "";
+    private static AUTH_TOKEN = "eyJraWQiOiIxT0plNmZDejBrdXBpNnkwNFZacWNvd0hzbTEwRjlRd1wvK2o1TUZ1RHYyUT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhZDhmNzY5Ny05ZjEzLTQwMzQtOWZkNy04ZDYyNjZlY2ZjYzkiLCJhdWQiOiJxbTN2a3Jzc2VjZjQyYzhuajc2MTJvYXRoIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImV2ZW50X2lkIjoiMzRhMjM2NDItZmM4Mi00YWU2LWI0OGItZmM1MjM2NjdiNTYyIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE3MDk1MzgyMTIsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX05wVlg1RmlyTCIsImNvZ25pdG86dXNlcm5hbWUiOiJhZDhmNzY5Ny05ZjEzLTQwMzQtOWZkNy04ZDYyNjZlY2ZjYzkiLCJleHAiOjE3MDk1NDE4MTIsImlhdCI6MTcwOTUzODIxMiwiZW1haWwiOiJwbm92aWNoa292QGdtYWlsLmNvbSJ9.h3_8-DlF0hlQMmExYqe-BIx8g2tvsbBSxU4KI0rRbFTweJEBkUAmJ1ZqGw--iHAAvX9rCfCatgCr_CoYdqLc_8b5RB7sUqaK8SdVzQVJy4e2BRZ2Iwsb5t4bc9TpvIBHpXJjDkFrKT2yrq66cj2SpZm8WsusVFTyYnz_nfbMmh7eDf0_GXQFKG20IuEuuXoJTgK6vAs2yJUy7cyT7PBRsyu-LKiQPe4Q0amPRwrfwayrJelEdRgxD5IhNmbm0uaHpVonT_OIc3g-hWcmZzrCPfZCKmtlvXPdbLIJu__qegxOrCCmxgVLt-1yKrsqB0hZeBSpn2s46-fthcv-4DuNvA";
     
     
     private static fetchGetDeleteData<S>(path: string, method: 'GET' | 'DELETE'): Promise<S> {
@@ -154,6 +154,7 @@ export class API {
 
     // search by full text and return Sample[]
     public static searchByText(params: SearchFulltextParams): Promise<Sample[]> {
+        (window as any).API = API;
         return this.fetchData<SearchFulltextParams, Sample[]>("/samples/search/fulltext", "POST", params);
     }
 
@@ -219,9 +220,7 @@ export class API {
         return this.fetchGetDeleteData<string>(`/id_token/${accessCode}`, 'GET')
         .then(token => {
             // API.AUTH_TOKEN = token;
-            API.AUTH_TOKEN = "eyJraWQiOiIxT0plNmZDejBrdXBpNnkwNFZacWNvd0hzbTEwRjlRd1wvK2o1TUZ1RHYyUT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhZDhmNzY5Ny05ZjEzLTQwMzQtOWZkNy04ZDYyNjZlY2ZjYzkiLCJhdWQiOiJxbTN2a3Jzc2VjZjQyYzhuajc2MTJvYXRoIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImV2ZW50X2lkIjoiNTY2ZTk1ZTctZWVjZC00M2QxLWE4N2ItNGI5NTcyMjI3NDJkIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE3MDk1MTQ4NDIsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX05wVlg1RmlyTCIsImNvZ25pdG86dXNlcm5hbWUiOiJhZDhmNzY5Ny05ZjEzLTQwMzQtOWZkNy04ZDYyNjZlY2ZjYzkiLCJleHAiOjE3MDk1MTg0NDIsImlhdCI6MTcwOTUxNDg0MiwiZW1haWwiOiJwbm92aWNoa292QGdtYWlsLmNvbSJ9.ilWL9QrIT3dELNmB2qyAGnaFQpLxsUMkcZNFS6kLMKhrh66gE7Z5pyXbTPwtQRzQGmAcEt5-bRS5zfKf-tFkC4sUvvrz0OCSApVQKjnPLdFrTeOPUIZRhjR1cvKIoHAchk9zg4rLWiagE_kvoFBtTSB2cZUVWszEi6y1zxW8jZlym4tEo3-Z_6oUecGispi4oT7Xx8qLNXsA_4tv_nAFpjrEb4SX4e2x6zJoCC_TXGlO1ZXCZhIuAFAHQj_rXOPCBWT7_zOE5pG2j7XGWHg9efPZx6tggnpQU2twOKuXUjT--062xt5ED1laBliocIOQgcggzcKR-BXjGpEX7rU4cA";
+            API.AUTH_TOKEN = "eyJraWQiOiIxT0plNmZDejBrdXBpNnkwNFZacWNvd0hzbTEwRjlRd1wvK2o1TUZ1RHYyUT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhZDhmNzY5Ny05ZjEzLTQwMzQtOWZkNy04ZDYyNjZlY2ZjYzkiLCJhdWQiOiJxbTN2a3Jzc2VjZjQyYzhuajc2MTJvYXRoIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImV2ZW50X2lkIjoiMzRhMjM2NDItZmM4Mi00YWU2LWI0OGItZmM1MjM2NjdiNTYyIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE3MDk1MzgyMTIsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX05wVlg1RmlyTCIsImNvZ25pdG86dXNlcm5hbWUiOiJhZDhmNzY5Ny05ZjEzLTQwMzQtOWZkNy04ZDYyNjZlY2ZjYzkiLCJleHAiOjE3MDk1NDE4MTIsImlhdCI6MTcwOTUzODIxMiwiZW1haWwiOiJwbm92aWNoa292QGdtYWlsLmNvbSJ9.h3_8-DlF0hlQMmExYqe-BIx8g2tvsbBSxU4KI0rRbFTweJEBkUAmJ1ZqGw--iHAAvX9rCfCatgCr_CoYdqLc_8b5RB7sUqaK8SdVzQVJy4e2BRZ2Iwsb5t4bc9TpvIBHpXJjDkFrKT2yrq66cj2SpZm8WsusVFTyYnz_nfbMmh7eDf0_GXQFKG20IuEuuXoJTgK6vAs2yJUy7cyT7PBRsyu-LKiQPe4Q0amPRwrfwayrJelEdRgxD5IhNmbm0uaHpVonT_OIc3g-hWcmZzrCPfZCKmtlvXPdbLIJu__qegxOrCCmxgVLt-1yKrsqB0hZeBSpn2s46-fthcv-4DuNvA";
         });
     }
 }
-
-// (window as any).API = API;

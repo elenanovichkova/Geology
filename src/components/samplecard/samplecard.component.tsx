@@ -60,7 +60,7 @@ export default function SampleCard({
                                   "about to delete the item",
                                   sample.id
                                 );
-                                // if (sample.id) return onDelete(sample.id);
+                                if (sample.id) return onDelete(sample.id);
                                 return;
                               }}
                             >
