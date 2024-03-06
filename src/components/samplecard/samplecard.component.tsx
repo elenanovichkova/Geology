@@ -5,6 +5,7 @@ import IconButton from "@/components/iconbutton/iconbutton.component";
 import { useState } from "react";
 import ConfirmDialog from "@/components/confirmdialog/confirmdialog.component";
 import ExitIcon from "../exiticon/exiticon.component";
+import { LABELS } from "@/utils/labels";
 
 type SamplCardProp = {
   sample: Sample;
@@ -74,7 +75,7 @@ export default function SampleCard({
                   <div className="basis-full">
                     <p className="mb-1 font-normal text-gray-700 dark:text-gray-400">
                       <span className="font-thin">Category: </span>
-                      <span>{sample.category}</span>
+                      <span>{LABELS[sample.category]}</span>
                     </p>
                   </div>
                 </div>
