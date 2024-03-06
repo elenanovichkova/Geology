@@ -94,15 +94,18 @@ export interface FileParams {
 
 export class API {
     public static readonly API_URL = "https://3d9e678b12.execute-api.us-east-1.amazonaws.com/prod";
-    private static AUTH_TOKEN = "eyJraWQiOiIxT0plNmZDejBrdXBpNnkwNFZacWNvd0hzbTEwRjlRd1wvK2o1TUZ1RHYyUT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhZDhmNzY5Ny05ZjEzLTQwMzQtOWZkNy04ZDYyNjZlY2ZjYzkiLCJhdWQiOiJxbTN2a3Jzc2VjZjQyYzhuajc2MTJvYXRoIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImV2ZW50X2lkIjoiMzRhMjM2NDItZmM4Mi00YWU2LWI0OGItZmM1MjM2NjdiNTYyIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE3MDk1MzgyMTIsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX05wVlg1RmlyTCIsImNvZ25pdG86dXNlcm5hbWUiOiJhZDhmNzY5Ny05ZjEzLTQwMzQtOWZkNy04ZDYyNjZlY2ZjYzkiLCJleHAiOjE3MDk1NDE4MTIsImlhdCI6MTcwOTUzODIxMiwiZW1haWwiOiJwbm92aWNoa292QGdtYWlsLmNvbSJ9.h3_8-DlF0hlQMmExYqe-BIx8g2tvsbBSxU4KI0rRbFTweJEBkUAmJ1ZqGw--iHAAvX9rCfCatgCr_CoYdqLc_8b5RB7sUqaK8SdVzQVJy4e2BRZ2Iwsb5t4bc9TpvIBHpXJjDkFrKT2yrq66cj2SpZm8WsusVFTyYnz_nfbMmh7eDf0_GXQFKG20IuEuuXoJTgK6vAs2yJUy7cyT7PBRsyu-LKiQPe4Q0amPRwrfwayrJelEdRgxD5IhNmbm0uaHpVonT_OIc3g-hWcmZzrCPfZCKmtlvXPdbLIJu__qegxOrCCmxgVLt-1yKrsqB0hZeBSpn2s46-fthcv-4DuNvA";
+    // private static AUTH_TOKEN = "eyJraWQiOiIxT0plNmZDejBrdXBpNnkwNFZacWNvd0hzbTEwRjlRd1wvK2o1TUZ1RHYyUT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhZDhmNzY5Ny05ZjEzLTQwMzQtOWZkNy04ZDYyNjZlY2ZjYzkiLCJhdWQiOiJxbTN2a3Jzc2VjZjQyYzhuajc2MTJvYXRoIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImV2ZW50X2lkIjoiMzRhMjM2NDItZmM4Mi00YWU2LWI0OGItZmM1MjM2NjdiNTYyIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE3MDk1MzgyMTIsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX05wVlg1RmlyTCIsImNvZ25pdG86dXNlcm5hbWUiOiJhZDhmNzY5Ny05ZjEzLTQwMzQtOWZkNy04ZDYyNjZlY2ZjYzkiLCJleHAiOjE3MDk1NDE4MTIsImlhdCI6MTcwOTUzODIxMiwiZW1haWwiOiJwbm92aWNoa292QGdtYWlsLmNvbSJ9.h3_8-DlF0hlQMmExYqe-BIx8g2tvsbBSxU4KI0rRbFTweJEBkUAmJ1ZqGw--iHAAvX9rCfCatgCr_CoYdqLc_8b5RB7sUqaK8SdVzQVJy4e2BRZ2Iwsb5t4bc9TpvIBHpXJjDkFrKT2yrq66cj2SpZm8WsusVFTyYnz_nfbMmh7eDf0_GXQFKG20IuEuuXoJTgK6vAs2yJUy7cyT7PBRsyu-LKiQPe4Q0amPRwrfwayrJelEdRgxD5IhNmbm0uaHpVonT_OIc3g-hWcmZzrCPfZCKmtlvXPdbLIJu__qegxOrCCmxgVLt-1yKrsqB0hZeBSpn2s46-fthcv-4DuNvA";
     
+    private static getIpToken() :string{
+        return sessionStorage.getItem('id_token') || '';        
+    }
     
     private static fetchGetDeleteData<S>(path: string, method: 'GET' | 'DELETE'): Promise<S> {
         return fetch(API.API_URL + path, {
             method: method,
             headers: {
                 "Content-Type": "application/json",
-                'Authorization': `Bearer ${API.AUTH_TOKEN}`
+                'Authorization': `Bearer ${API.getIpToken()}`
             },
         }).then((response) => {
             if (!response.ok) {
@@ -121,7 +124,7 @@ export class API {
             method: method,
             headers: {
                 "Content-Type": "application/json",
-                'Authorization': `Bearer ${API.AUTH_TOKEN}`
+                'Authorization': `Bearer ${API.getIpToken()}`
             },
             body: JSON.stringify(params),
         }).then((response) => {
@@ -214,13 +217,5 @@ export class API {
             "POST",
             { username: username, password: password }
         );
-    }
-
-    public static retrieveAuthToken(accessCode: string) {
-        return this.fetchGetDeleteData<string>(`/id_token/${accessCode}`, 'GET')
-        .then(token => {
-            // API.AUTH_TOKEN = token;
-            API.AUTH_TOKEN = "eyJraWQiOiIxT0plNmZDejBrdXBpNnkwNFZacWNvd0hzbTEwRjlRd1wvK2o1TUZ1RHYyUT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhZDhmNzY5Ny05ZjEzLTQwMzQtOWZkNy04ZDYyNjZlY2ZjYzkiLCJhdWQiOiJxbTN2a3Jzc2VjZjQyYzhuajc2MTJvYXRoIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImV2ZW50X2lkIjoiMzRhMjM2NDItZmM4Mi00YWU2LWI0OGItZmM1MjM2NjdiNTYyIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE3MDk1MzgyMTIsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX05wVlg1RmlyTCIsImNvZ25pdG86dXNlcm5hbWUiOiJhZDhmNzY5Ny05ZjEzLTQwMzQtOWZkNy04ZDYyNjZlY2ZjYzkiLCJleHAiOjE3MDk1NDE4MTIsImlhdCI6MTcwOTUzODIxMiwiZW1haWwiOiJwbm92aWNoa292QGdtYWlsLmNvbSJ9.h3_8-DlF0hlQMmExYqe-BIx8g2tvsbBSxU4KI0rRbFTweJEBkUAmJ1ZqGw--iHAAvX9rCfCatgCr_CoYdqLc_8b5RB7sUqaK8SdVzQVJy4e2BRZ2Iwsb5t4bc9TpvIBHpXJjDkFrKT2yrq66cj2SpZm8WsusVFTyYnz_nfbMmh7eDf0_GXQFKG20IuEuuXoJTgK6vAs2yJUy7cyT7PBRsyu-LKiQPe4Q0amPRwrfwayrJelEdRgxD5IhNmbm0uaHpVonT_OIc3g-hWcmZzrCPfZCKmtlvXPdbLIJu__qegxOrCCmxgVLt-1yKrsqB0hZeBSpn2s46-fthcv-4DuNvA";
-        });
     }
 }
