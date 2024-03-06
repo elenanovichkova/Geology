@@ -2,8 +2,10 @@
 import { Sample } from "@/services/api";
 import { Router, useRouter } from "next/router";
 import { MouseEventHandler, useCallback, useRef } from "react";
-import IconButton from "../iconbutton/iconbutton.component";
-import ExitIcon from "../exiticon/exiticon.component";
+import IconButton from "@/components/iconbutton/iconbutton.component";
+import ExitIcon from "@/components/exiticon/exiticon.component";
+import GoogleMapShowPointer from "@/components/googleMapShowPointer/googlemapshowpointer.component";
+import GoogleMapShowRectangle from "../googleMapShowRectangle/googlemapshowrectangle.component";
 
 export default function SampleDetail(sample: Sample) {
   return (
@@ -222,6 +224,30 @@ export default function SampleDetail(sample: Sample) {
                       </div>
                     </div>
                   </div>
+                </div>
+                <div>
+                  {sample.locationMarkerlat && sample.locationMarkerlng && (
+                    <GoogleMapShowPointer
+                      pinPosition={{
+                        lat: sample.locationMarkerlat,
+                        lng: sample.locationMarkerlng,
+                      }}
+                    />
+                  )}
+                  {sample.locationRectangleBounds &&
+                    sample.locationRectangleBounds.east &&
+                    sample.locationRectangleBounds.north &&
+                    sample.locationRectangleBounds.east &&
+                    sample.locationRectangleBounds.south && (
+                      <GoogleMapShowRectangle
+                        rectanglePosition={{
+                          east: sample.locationRectangleBounds.east,
+                          north: sample.locationRectangleBounds.north,
+                          west: sample.locationRectangleBounds.west,
+                          south: sample.locationRectangleBounds.south,
+                        }}
+                      />
+                    )}
                 </div>
               </div>
             </div>
