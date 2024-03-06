@@ -7,7 +7,7 @@ export default function Home() {
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
     setFieldValue("file", file);
-    //setFieldTouched("file", true);
+    //setFieldTouched("file", true); commented out because it is causing second rerender and changes the value of the file to be undefined
   };
 
   return (

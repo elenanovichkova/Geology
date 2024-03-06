@@ -24,7 +24,7 @@ export default function SampleDetailModal({ params }: Props) {
   if (!sample) {
     return (
       <Modal>
-        <div className="flex justify-center">
+        <div className="flex justify-center  items-center h-full">
           <Spinner />
         </div>
       </Modal>

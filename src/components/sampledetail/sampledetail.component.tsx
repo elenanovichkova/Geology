@@ -1,4 +1,12 @@
+"use client";
 import { Sample } from "@/services/api";
+import { Router, useRouter } from "next/router";
+import { MouseEventHandler, useCallback, useRef } from "react";
+import IconButton from "@/components/iconbutton/iconbutton.component";
+import ExitIcon from "@/components/exiticon/exiticon.component";
+import GoogleMapShowPointer from "@/components/googleMapShowPointer/googlemapshowpointer.component";
+import GoogleMapShowRectangle from "../googleMapShowRectangle/googlemapshowrectangle.component";
+import { LABELS } from "./../../utils/labels";
 
 export default function SampleDetail(sample: Sample) {
   return (
@@ -7,7 +15,7 @@ export default function SampleDetail(sample: Sample) {
         <div className="grid md:grid-cols-6 md:gap-4">
           <div className="col-start-0 col-span-12 md:col-start-1 md:col-span-6">
             <div className="card hover:shadow-lg">
-              <div className="card-body">
+              <div className="card-body ">
                 <div>
                   <div className="px-4 sm:px-0">
                     <h3 className="text-base font-semibold leading-7 text-gray-900">
@@ -18,7 +26,7 @@ export default function SampleDetail(sample: Sample) {
                       )}
                     </h3>
                     <span className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-                      {sample.category}
+                      {LABELS[sample.category]}
                     </span>
                   </div>
                   <div className="mt-6 border-t border-gray-300">
@@ -73,7 +81,7 @@ export default function SampleDetail(sample: Sample) {
                             <div className="mt-1 text-sm justify-self-end leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                               {sample.collectionReason &&
                               sample.collectionReason.length > 0 ? (
-                                `${sample.collectionYear}`
+                                `${sample.collectionReason.join(", ")}`
                               ) : (
                                 <div className="text-gray-300"> --N/A-- </div>
                               )}
@@ -215,6 +223,30 @@ export default function SampleDetail(sample: Sample) {
                       </div>
                     </div>
                   </div>
+                </div>
+                <div>
+                  {sample.locationMarkerlat && sample.locationMarkerlng && (
+                    <GoogleMapShowPointer
+                      pinPosition={{
+                        lat: sample.locationMarkerlat,
+                        lng: sample.locationMarkerlng,
+                      }}
+                    />
+                  )}
+                  {sample.locationRectangleBounds &&
+                    sample.locationRectangleBounds.east &&
+                    sample.locationRectangleBounds.north &&
+                    sample.locationRectangleBounds.east &&
+                    sample.locationRectangleBounds.south && (
+                      <GoogleMapShowRectangle
+                        rectanglePosition={{
+                          east: sample.locationRectangleBounds.east,
+                          north: sample.locationRectangleBounds.north,
+                          west: sample.locationRectangleBounds.west,
+                          south: sample.locationRectangleBounds.south,
+                        }}
+                      />
+                    )}
                 </div>
               </div>
             </div>

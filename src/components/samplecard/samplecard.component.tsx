@@ -5,6 +5,7 @@ import IconButton from "@/components/iconbutton/iconbutton.component";
 import { useState } from "react";
 import ConfirmDialog from "@/components/confirmdialog/confirmdialog.component";
 import ExitIcon from "../exiticon/exiticon.component";
+import { LABELS } from "@/utils/labels";
 
 type SamplCardProp = {
   sample: Sample;
@@ -12,7 +13,7 @@ type SamplCardProp = {
   context: string;
 };
 
-export default function samplecard({
+export default function SampleCard({
   sample,
   onDelete,
   context,
@@ -20,13 +21,13 @@ export default function samplecard({
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   return (
-    <div className="mb-3 bg-white border border-gray-200 rounded-lg shadow   dark:border-gray-700 dark:bg-gray-800 ">
+    <div className="mb-0.5 bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700 dark:bg-gray-800 ">
       <div className="flex items-stretch">
         <div className="basis-full">
           <div className="flex flex-col md:flex-row items-stretch">
             <div className="">
               <img
-                className="object-cover w-full rounded-t-lg hidden md:block h-10 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
+                className="object-cover w-full rounded-t-lg hidden md:block h-10 md:h-auto md:w-32 md:rounded-none md:rounded-s-lg"
                 src="/sample_image.jpg"
                 alt=""
               />
@@ -72,9 +73,9 @@ export default function samplecard({
                     </div>
                   </div>
                   <div className="basis-full">
-                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                    <p className="mb-1 font-normal text-gray-700 dark:text-gray-400">
                       <span className="font-thin">Category: </span>
-                      <span>{sample.category}</span>
+                      <span>{LABELS[sample.category]}</span>
                     </p>
                   </div>
                 </div>

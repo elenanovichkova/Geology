@@ -44,14 +44,14 @@ export default function SearchMap() {
   return (
     <div>
       <div className="grid md:grid-cols-4 md:gap-4 pb-4">
-        <div className="mb-4 md:mb-0 md:col-start-2 md:col-span-1 lg:col-start-2 lg:col-span-1">
+        <div className="mb-4 md:mb-0 md:col-start-2 md:col-span-1 lg:hidden">
           <div className="text-end">
             <Link href="/search/filters">
               <SearchOptionButton text="Filter Search" />
             </Link>
           </div>
         </div>
-        <div className="md:col-start-3 md:col-span-1 lg:col-start-3 lg:col-span-1">
+        <div className="md:col-start-3 md:col-span-1 lg:hidden ">
           <div className="text-start">
             <Link href="/search/term">
               <SearchOptionButton text="Text Search" />

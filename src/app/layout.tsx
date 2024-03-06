@@ -6,8 +6,8 @@ import Link from "next/link";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Geo-Science",
-  description: "Geo-Science Sample Database",
+  title: "Geoscience",
+  description: "Geoscience Sample Database",
 };
 
 export default function RootLayout({
@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="sticky top-0 bg-zinc-950 z-50">
+        <div className="sticky top-0 w-full z-50 bg-zinc-950">
           <div className="flex justify-between">
             <div>
               <Link href="/" className="">
