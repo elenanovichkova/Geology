@@ -6,6 +6,7 @@ import IconButton from "@/components/iconbutton/iconbutton.component";
 import ExitIcon from "@/components/exiticon/exiticon.component";
 import GoogleMapShowPointer from "@/components/googleMapShowPointer/googlemapshowpointer.component";
 import GoogleMapShowRectangle from "../googleMapShowRectangle/googlemapshowrectangle.component";
+import { LABELS } from "./../../utils/labels";
 
 export default function SampleDetail(sample: Sample) {
   return (
@@ -25,9 +26,7 @@ export default function SampleDetail(sample: Sample) {
                       )}
                     </h3>
                     <span className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-                      {sample.category == "singleSpecimen"
-                        ? "Single Specimen"
-                        : `${sample.category}`}
+                      {LABELS[sample.category]}
                     </span>
                   </div>
                   <div className="mt-6 border-t border-gray-300">
