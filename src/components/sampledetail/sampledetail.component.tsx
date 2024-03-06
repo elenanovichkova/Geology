@@ -79,7 +79,7 @@ export default function SampleDetail(sample: Sample) {
                             <div className="mt-1 text-sm justify-self-end leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                               {sample.collectionReason &&
                               sample.collectionReason.length > 0 ? (
-                                `${sample.collectionYear}`
+                                `${sample.collectionReason.join(", ")}`
                               ) : (
                                 <div className="text-gray-300"> --N/A-- </div>
                               )}
