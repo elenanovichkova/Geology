@@ -21,11 +21,22 @@ export default function FilterSearch() {
   const [toggleRoom, setToggleRoom] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [init, setInit] = useState(false);
+  const [error, setError] = useState<string>("");
 
   const handleOnDelete = (id: number) => {
-    API.deleteSample(id).then(() => {
-      alert("successfully deleted");
-    });
+    setError("");
+    API.deleteSample(id)
+      .then(() => {
+        alert("successfully deleted");
+        //need to update samples
+        let newSamples = samples.reduce((acc: Sample[], smpl: Sample) => {
+          const copySmpl = { ...smpl };
+          acc.push(copySmpl);
+          return acc;
+        }, []);
+        setSamples(newSamples);
+      })
+      .catch((error) => setError(error));
   };
 
   return (
@@ -79,6 +90,7 @@ export default function FilterSearch() {
                         console.log(values);
                         actions.setSubmitting(true);
                         setLoading(true);
+                        setError("");
                         if (!init) {
                           setInit(true);
                         }
@@ -298,7 +310,6 @@ export default function FilterSearch() {
               </div>
               {/* result set */}
               <div className="md:flex-grow background-filter rounded ml-2">
-                {" "}
                 <div className="flex flex-col w-full justify-center items-ceneter">
                   {init && (
                     <div className="">
@@ -309,7 +320,7 @@ export default function FilterSearch() {
                   )}
                   {loading && (
                     <div className="">
-                      <div className="flex justify-center">
+                      <div className="flex justify-center items center">
                         <div>
                           <SpinnerComponent />
                         </div>
