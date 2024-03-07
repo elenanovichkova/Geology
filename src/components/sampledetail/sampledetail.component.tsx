@@ -6,7 +6,7 @@ import IconButton from "@/components/iconbutton/iconbutton.component";
 import ExitIcon from "@/components/exiticon/exiticon.component";
 import GoogleMapShowPointer from "@/components/googleMapShowPointer/googlemapshowpointer.component";
 import GoogleMapShowRectangle from "../googleMapShowRectangle/googlemapshowrectangle.component";
-import { LABELS } from "./../../utils/labels";
+import { LABELARRAYS, LABELS } from "./../../utils/labels";
 
 export default function SampleDetail(sample: Sample) {
   return (
@@ -91,31 +91,53 @@ export default function SampleDetail(sample: Sample) {
                             <div className="text-sm font-medium leading-6 text-gray-900">
                               Collection Site Coordinates
                               {sample.locationMarkerlat ? " (Marker)" : ""}
+                              {sample.locationRectangleBounds
+                                ? " (Rectangle)"
+                                : ""}
                             </div>
-                            <div className="mt-1 text-sm justify-self-end leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                              <div>
-                                lat:
-                                {sample.locationMarkerlat ? (
-                                  `${sample.locationMarkerlat}`
-                                ) : (
-                                  <span className="text-gray-300 justify-self-end">
-                                    {" "}
-                                    xx.xxxx{" "}
-                                  </span>
-                                )}
+
+                            {sample.locationRectangleBounds && (
+                              <div className="mt-1 text-sm justify-self-end leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                <div>
+                                  north:{" "}
+                                  {`${sample.locationRectangleBounds.north}`}{" "}
+                                  west:{" "}
+                                  {`${sample.locationRectangleBounds.west}`}
+                                </div>
+                                <div>
+                                  south:{" "}
+                                  {`${sample.locationRectangleBounds.south}`}{" "}
+                                  east:{" "}
+                                  {`${sample.locationRectangleBounds.east}`}
+                                </div>
                               </div>
-                              <div>
-                                lng:
-                                {sample.locationMarkerlng ? (
-                                  `${sample.locationMarkerlng}`
-                                ) : (
-                                  <span className="text-gray-300 justify-self-end">
-                                    {" "}
-                                    xx.xxxx{" "}
-                                  </span>
-                                )}
+                            )}
+                            {!sample.locationRectangleBounds && (
+                              <div className="mt-1 text-sm justify-self-end leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                <div className="justify-text-end">
+                                  lat:
+                                  {sample.locationMarkerlat ? (
+                                    `${sample.locationMarkerlat}`
+                                  ) : (
+                                    <span className="text-gray-300 justify-self-end">
+                                      {" "}
+                                      xx.xxxx{" "}
+                                    </span>
+                                  )}
+                                </div>
+                                <div>
+                                  lng:
+                                  {sample.locationMarkerlng ? (
+                                    `${sample.locationMarkerlng}`
+                                  ) : (
+                                    <span className="text-gray-300 justify-self-end">
+                                      {" "}
+                                      xx.xxxx{" "}
+                                    </span>
+                                  )}
+                                </div>
                               </div>
-                            </div>
+                            )}
                           </div>
                         </div>
                       </div>
