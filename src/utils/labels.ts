@@ -1,21 +1,11 @@
-import { string } from "yup";
-
-interface labels {
+interface Labels {
   [label: string]: string;
 }
 
-interface labelArrays {
-  [label: string]: string[];
-}
-
-export const LABELS: labels = {
+export const LABELS: Labels = {
   singleSpecimen: "Single Specimen",
-};
+  handSample: "Hand Sample",
+  mineralSeparate: "Mineral Separate",
+  thinSection: "Thin Section"
 
-const mineralSeparate = "mineral separate";
-const thinSection = "thin section";
-const handSample = "hand sample";
-
-export const LABELARRAYS: labelArrays = {
-  sampleForm: [mineralSeparate, thinSection, handSample],
 };
