@@ -19,17 +19,21 @@ export default function SearchTerm() {
   const [samples, setSamples] = useState<Sample[]>([]);
   const [loading, setLoading] = useState(false);
   const [init, setInit] = useState(false);
+  const [error, setError] = useState<string>("");
 
   const handleOnDelete = (id: number) => {
-    API.deleteSample(id).then(() => {
-      alert("successfully deleted");
-      // let copySample = samples.reduce((accumulator, currentValue) => {
-      //   if(currentValue.id === id){
-      //     return accumulator;
-      //   }
-      //   return accumulator.push(currentValue)
-      // }, []);
-    });
+    setError("");
+    API.deleteSample(id)
+      .then(() => {
+        alert("successfully deleted");
+        // let copySample = samples.reduce((accumulator, currentValue) => {
+        //   if(currentValue.id === id){
+        //     return accumulator;
+        //   }
+        //   return accumulator.push(currentValue)
+        // }, []);
+      })
+      .catch((error) => setError(error));
   };
 
   return (
@@ -66,6 +70,7 @@ export default function SearchTerm() {
               if (!init) {
                 setInit(true);
               }
+              setError("");
               API.searchByText(values)
                 .then((result) => {
                   setSamples(result);
@@ -75,6 +80,7 @@ export default function SearchTerm() {
                 .catch(() => {
                   actions.setSubmitting(false);
                   setLoading(false);
+                  setError("server error");
                 });
             }}
           >
@@ -125,8 +131,15 @@ export default function SearchTerm() {
                   ))}
               </div>
             )}
-            {!loading && samples.length === 0 && init && (
-              <div className="col-start-7">No Results Found</div>
+            {!loading && samples.length === 0 && init && !error && (
+              <div className="col-start-1 col-span-12">
+                <div className="text-center">No Results Found</div>
+              </div>
+            )}
+            {!loading && samples.length === 0 && init && error && (
+              <div className="col-start-1 col-span-12">
+                <div className="text-center text-red-500">{error}</div>
+              </div>
             )}
           </div>
         </div>

@@ -6,7 +6,7 @@ import IconButton from "@/components/iconbutton/iconbutton.component";
 import ExitIcon from "@/components/exiticon/exiticon.component";
 import GoogleMapShowPointer from "@/components/googleMapShowPointer/googlemapshowpointer.component";
 import GoogleMapShowRectangle from "../googleMapShowRectangle/googlemapshowrectangle.component";
-import { LABELARRAYS, LABELS } from "./../../utils/labels";
+import { LABELS } from "./../../utils/labels";
 
 export default function SampleDetail(sample: Sample) {
   return (
@@ -180,7 +180,9 @@ export default function SampleDetail(sample: Sample) {
                             <div className="mt-1 text-sm justify-self-end leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                               {sample.sampleForm &&
                               sample.sampleForm.length > 0 ? (
-                                `${sample.sampleForm.join(", ")}`
+                                `${sample.sampleForm
+                                  .map((form) => LABELS[form])
+                                  .join(", ")}`
                               ) : (
                                 <div className="text-gray-300"> --N/A-- </div>
                               )}

@@ -100,9 +100,10 @@ export default function FilterSearch() {
                             actions.setSubmitting(false);
                             setLoading(false);
                           })
-                          .catch(() => {
+                          .catch((error) => {
                             actions.setSubmitting(false);
                             setLoading(false);
+                            setError("server error");
                           });
                       }}
                     >
@@ -341,8 +342,11 @@ export default function FilterSearch() {
                         ))}
                     </div>
                   )}
-                  {!loading && samples.length === 0 && init && (
-                    <div className="">No Results Found</div>
+                  {!loading && samples.length === 0 && init && !error && (
+                    <div className="text-center">No Results Found</div>
+                  )}
+                  {!loading && samples.length === 0 && init && error && (
+                    <div className="text-center text-red-500">{error}</div>
                   )}
                 </div>
               </div>
