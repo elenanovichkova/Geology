@@ -1,24 +1,11 @@
-interface labels {
+interface Labels {
   [label: string]: string;
 }
 
-export const LABELS: labels = {
+export const LABELS: Labels = {
   singleSpecimen: "Single Specimen",
   handSample: "Hand Sample",
   mineralSeparate: "Mineral Separate",
-  thinSection: "Thin Section",
-  collection: "Collection",
-  rock: "Rock",
-  soil: "Soil",
-  water: "Water",
-  fossil: "Fossil",
-  sand: "Sand",
+  thinSection: "Thin Section"
+
 };
-
-// type A = {
-//     [ test: string]: string
-// }
-
-// export const LABELS: A = {
-//     test: "test label"
-// }

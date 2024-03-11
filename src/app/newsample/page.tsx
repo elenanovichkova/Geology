@@ -137,16 +137,14 @@ export default function NewSample() {
                     {props.errors.file && props.values.file ? (
                       <div className="text-red-500">{props.errors.file}</div>
                     ) : null}
-                    {props.isValid &&
-                      props.values.file &&
-                      !props.isSubmitting && (
-                        <button
-                          type="submit"
-                          className="bg-secondary-100 hover:bg-secondary-200 text-white font-bold py-2 px-4 rounded ml-3"
-                        >
-                          SUBMIT
-                        </button>
-                      )}
+                    {props.isValid && props.values.file && !props.isSubmitting && (
+                      <button
+                        type="submit"
+                        className="bg-secondary-100 hover:bg-secondary-200 text-white font-bold py-2 px-4 rounded ml-3"
+                      >
+                        SUBMIT
+                      </button>
+                    )}
                   </div>
                 </fieldset>
               </fieldset>

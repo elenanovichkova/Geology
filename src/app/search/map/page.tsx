@@ -34,11 +34,15 @@ export default function SearchMap() {
   const [samples, setSamples] = useState<Sample[]>([]);
   const [loading, setLoading] = useState(false);
   const [init, setInit] = useState(false);
+  const [error, setError] = useState<string>("");
 
   const handleOnDelete = (id: number) => {
-    API.deleteSample(id).then(() => {
-      alert("successfully deleted");
-    });
+    setError("");
+    API.deleteSample(id)
+      .then(() => {
+        alert("successfully deleted");
+      })
+      .catch((error) => setError(error));
   };
 
   return (
@@ -73,6 +77,7 @@ export default function SearchMap() {
         onSubmit={async (values, actions) => {
           actions.setSubmitting(true);
           setLoading(true);
+          setError("");
           if (!init) {
             setInit(true);
           }
@@ -95,6 +100,7 @@ export default function SearchMap() {
               .catch(() => {
                 actions.setSubmitting(false);
                 setLoading(false);
+                setError("server error");
               });
           }
 
@@ -155,8 +161,15 @@ export default function SearchMap() {
               ))}
           </div>
         )}
-        {!loading && samples.length === 0 && init && (
-          <div className="col-start-7">No Results Found</div>
+        {!loading && samples.length === 0 && init && !error && (
+          <div className="col-start-1 col-span-12">
+            <div className="text-center">No Results Found</div>
+          </div>
+        )}
+        {!loading && samples.length === 0 && init && error && (
+          <div className="col-start-1 col-span-12">
+            <div className="text-center text-red-500">{error}</div>
+          </div>
         )}
       </div>
     </div>

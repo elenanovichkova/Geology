@@ -46,29 +46,43 @@ export default memo(function GoogleMapShow(
 
   const onMapLoad = useCallback(function callback(map: google.maps.Map) {
     // This is just an example of getting and using the map instance
-    const getCenterPosition = (
-      rectPosition: google.maps.LatLngBoundsLiteral
-    ): google.maps.LatLngLiteral => {
-      var nw = new google.maps.LatLng(rectPosition.north, rectPosition.west);
-      var se = new google.maps.LatLng(rectPosition.south, rectPosition.east);
-      return {
-        lng: se.lng(),
-        lat: nw.lat(),
-      };
-    };
-    if (
-      document.getElementById("view-google-map")?.parentElement?.clientWidth
-    ) {
-      setContainerStyle({
-        width: `${
-          document.getElementById("view-google-map")?.parentElement?.clientWidth
-        }px`,
-        height: "600px",
-      });
-    }
-    map.setCenter(getCenterPosition(rectanglePosition));
+    // const getCenterPosition = (
+    //   rectPosition: google.maps.LatLngBoundsLiteral
+    // ): google.maps.LatLngLiteral => {
+    //   var nw = new google.maps.LatLng(rectPosition.north, rectPosition.west);
+    //   var se = new google.maps.LatLng(rectPosition.south, rectPosition.east);
+    //   return {
+    //     lng: se.lng(),
+    //     lat: nw.lat(),
+    //   };
+    // };
+    // if (
+    //   document.getElementById("view-google-map")?.parentElement?.clientWidth
+    // ) {
+    //   setContainerStyle({
+    //     width: `${
+    //       document.getElementById("view-google-map")?.parentElement?.clientWidth
+    //     }px`,
+    //     height: "600px",
+    //   });
+    // }
+    //map.setCenter(getCenterPosition(rectanglePosition));
     setMap(map);
   }, []);
+
+  const onRectangleLoad = (rect: google.maps.Rectangle) => {
+    const getCenterPosition = (
+      lat: number,
+      lng: number
+    ): google.maps.LatLngLiteral => {
+      return { lat, lng };
+    };
+    let lat = rect.getBounds()?.getCenter().lat();
+    let lng = rect.getBounds()?.getCenter().lng();
+    if (lat && lng && map) {
+      map.setCenter(getCenterPosition(lat, lng));
+    }
+  };
 
   const onUnmount = useCallback(function callback(map: google.maps.Map) {
     setMap(undefined);
@@ -82,7 +96,7 @@ export default memo(function GoogleMapShow(
         onLoad={onMapLoad}
         onUnmount={onUnmount}
       >
-        <Rectangle bounds={rectanglePosition} />
+        <Rectangle bounds={rectanglePosition} onLoad={onRectangleLoad} />
       </GoogleMap>
     </div>
   ) : (
