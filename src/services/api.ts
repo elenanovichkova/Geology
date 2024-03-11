@@ -1,4 +1,7 @@
 import axios from 'axios';
+import { headers } from 'next/headers';
+
+export interface Empty { };
 
 export interface Sample {
     id?: number;
@@ -60,20 +63,20 @@ export interface SearchLocationParams {
 }
 
 export interface MapSearchLocationParams {
-  locationRectangleBounds?: {
-    Jh: {
-      lo: number;
-      hi: number;
-    },
-    Zh: {
-      lo: number;
-      hi: number;
-    },
-  } | null;
+    locationRectangleBounds?: {
+        Jh: {
+            lo: number;
+            hi: number;
+        },
+        Zh: {
+            lo: number;
+            hi: number;
+        },
+    } | null;
 }
 
 export interface FileUpload {
-  file?: File | undefined;
+    file?: File | undefined;
 }
 
 export interface ResultStatus {
@@ -93,47 +96,21 @@ export interface FileParams {
 }
 
 export class API {
-    public static readonly API_URL = "https://3d9e678b12.execute-api.us-east-1.amazonaws.com/prod";
-    // private static AUTH_TOKEN = "eyJraWQiOiIxT0plNmZDejBrdXBpNnkwNFZacWNvd0hzbTEwRjlRd1wvK2o1TUZ1RHYyUT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhZDhmNzY5Ny05ZjEzLTQwMzQtOWZkNy04ZDYyNjZlY2ZjYzkiLCJhdWQiOiJxbTN2a3Jzc2VjZjQyYzhuajc2MTJvYXRoIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImV2ZW50X2lkIjoiMzRhMjM2NDItZmM4Mi00YWU2LWI0OGItZmM1MjM2NjdiNTYyIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE3MDk1MzgyMTIsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX05wVlg1RmlyTCIsImNvZ25pdG86dXNlcm5hbWUiOiJhZDhmNzY5Ny05ZjEzLTQwMzQtOWZkNy04ZDYyNjZlY2ZjYzkiLCJleHAiOjE3MDk1NDE4MTIsImlhdCI6MTcwOTUzODIxMiwiZW1haWwiOiJwbm92aWNoa292QGdtYWlsLmNvbSJ9.h3_8-DlF0hlQMmExYqe-BIx8g2tvsbBSxU4KI0rRbFTweJEBkUAmJ1ZqGw--iHAAvX9rCfCatgCr_CoYdqLc_8b5RB7sUqaK8SdVzQVJy4e2BRZ2Iwsb5t4bc9TpvIBHpXJjDkFrKT2yrq66cj2SpZm8WsusVFTyYnz_nfbMmh7eDf0_GXQFKG20IuEuuXoJTgK6vAs2yJUy7cyT7PBRsyu-LKiQPe4Q0amPRwrfwayrJelEdRgxD5IhNmbm0uaHpVonT_OIc3g-hWcmZzrCPfZCKmtlvXPdbLIJu__qegxOrCCmxgVLt-1yKrsqB0hZeBSpn2s46-fthcv-4DuNvA";
-    
-    private static getIpToken() :string{
-        return sessionStorage.getItem('id_token') || '';        
-    }
-    
-    private static fetchGetDeleteData<S>(path: string, method: 'GET' | 'DELETE'): Promise<S> {
-        return fetch(API.API_URL + path, {
-            method: method,
-            headers: {
-                "Content-Type": "application/json",
-                'Authorization': `Bearer ${API.getIpToken()}`
-            },
-        }).then((response) => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        });
+    // public static readonly API_URL: string = process.env.API_URL!;
+    public static readonly API_URL: string = "https://71tvo961fh.execute-api.us-east-1.amazonaws.com/dev";
+
+    public static isAuthenticated(): boolean {
+        return sessionStorage.getItem('id_token') !== null;
     }
 
-    private static fetchData<T, S>(
-        path: string,
-        method: string,
-        params: T
-    ): Promise<S> {
-        return fetch(API.API_URL + path, {
-            method: method,
-            headers: {
-                "Content-Type": "application/json",
-                'Authorization': `Bearer ${API.getIpToken()}`
-            },
-            body: JSON.stringify(params),
-        }).then((response) => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        });
+    public static logout() {
+        sessionStorage.removeItem('id_token');
     }
+
+    private static getIpToken(): string {
+        return sessionStorage.getItem('id_token') || '';
+    }
+
 
     // search by SearchFilterParams and return Sample[]
     public static searchByFilter(params: SearchFilterParams): Promise<Sample[]> {
@@ -145,52 +122,46 @@ export class API {
     }
 
     // search by SearchLocationParams and return Sample[]
-    public static searchByLocation(
-        params: SearchLocationParams
-    ): Promise<Sample[]> {
+    public static searchByLocation(params: SearchLocationParams): Promise<Sample[]> {
         return this.fetchData<SearchLocationParams, Sample[]>(
             "/samples/search/location",
             "POST",
-            params
-        );
+            params);
     }
 
     // search by full text and return Sample[]
     public static searchByText(params: SearchFulltextParams): Promise<Sample[]> {
-        (window as any).API = API;
-        return this.fetchData<SearchFulltextParams, Sample[]>("/samples/search/fulltext", "POST", params);
+        return this.fetchData<SearchFulltextParams, Sample[]>(
+            "/samples/search/fulltext",
+            "POST",
+            params);
     }
 
     // get sample by id and return Sample
     public static getSample(id: number): Promise<Sample> {
-        return this.fetchGetDeleteData<Sample>(`/samples/${id}`, 'GET');
+        return this.fetchData<Empty, Sample>(`/samples/${id}`, 'GET');
     }
 
     // list all samples and return Sample[]
     public static listSamples(): Promise<Sample[]> {
-        return this.fetchGetDeleteData<Sample[]>("/samples", 'GET');
+        return this.fetchData<Empty, Sample[]>(
+            "/samples",
+            'GET');
     }
 
     //add sample using POST
     public static addSample(sample: Sample): Promise<ResultStatus> {
-        return this.fetchData<Sample, ResultStatus>("/samples", "POST", sample);
+        return this.fetchData<Sample, ResultStatus>(
+            "/samples",
+            "POST",
+            sample);
     }
 
     // delete Sample by id
     public static deleteSample(id: number): Promise<ResultStatus> {
-        return this.fetchGetDeleteData<ResultStatus>(`/samples/${id}`, "DELETE");
-    }
-
-    public static uploadFile(file: File, presignedUrl: PresignedURL): Promise<ResultStatus> {
-        return axios.put(presignedUrl.url, file, {
-            headers: {
-                'Content-Type': file.type,
-            },
-        })
-            .then((response) => {
-                console.log(response);
-                return { success: true, message: "" };
-            });
+        return this.fetchData<Empty, ResultStatus>(
+            `/samples/${id}`,
+            "DELETE");
     }
 
     public static getPresignedUrl(file: File): Promise<PresignedURL> {
@@ -218,4 +189,79 @@ export class API {
             { username: username, password: password }
         );
     }
+
+    public static uploadFile(file: File, presignedUrl: PresignedURL): Promise<Empty> {
+        return axios.put(presignedUrl.url, file, {
+                headers: {
+                    'Content-Type': file.type,
+                },
+            })
+            .then((response) => {
+                return {};
+            });
+    }
+
+    private static fetchData<S, T>(path: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', params: S | null = null): Promise<T> {
+        const headers: { [key: string]: string } = {};
+        if (this.isAuthenticated()) {
+            headers['Authorization'] = `Bearer ${API.getIpToken()}`;
+        }
+        if (params != null) {
+            headers['Content-Type'] = 'application/json';
+        }
+
+        const body: string = params != null ? JSON.stringify(params) : '';
+
+        return fetch(API.API_URL + path, params != null ? {method, headers, body}: {method, headers})
+            .then((response) => {
+                const data = response.json();
+                if (response.status >= 300) {
+                    if ('message' in data) {
+                        const message: string = data.message as string;
+                        throw new Error(message);
+                    } else {
+                        throw new Error('Unknown error');
+                    }
+                }
+                return data;
+            });
+    }
+
+
+
+    // private static fetchGetDeleteData<S>(path: string, method: 'GET' | 'DELETE'): Promise<S> {
+    //     return fetch(API.API_URL + path, {
+    //         method: method,
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             'Authorization': `Bearer ${API.getIpToken()}`
+    //         },
+    //     }).then((response) => {
+    //         if (!response.ok) {
+    //             throw new Error(`HTTP error! Status: ${response.status}`);
+    //         }
+    //         return response.json();
+    //     });
+    // }
+
+    // private static fetchData<T, S>(
+    //     path: string,
+    //     method: string,
+    //     params: T
+    // ): Promise<S> {
+    //     return fetch(API.API_URL + path, {
+    //         method: method,
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             'Authorization': `Bearer ${API.getIpToken()}`
+    //         },
+    //         body: JSON.stringify(params),
+    //     }).then((response) => {
+    //         if (!response.ok) {
+    //             throw new Error(`HTTP error! Status: ${response.status}`);
+    //         }
+    //         return response.json();
+    //     });
+    // }
+
 }
