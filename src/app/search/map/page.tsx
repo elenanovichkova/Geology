@@ -41,6 +41,14 @@ export default function SearchMap() {
     API.deleteSample(id)
       .then(() => {
         alert("successfully deleted");
+        let newSamples = samples.reduce((acc: Sample[], smpl: Sample) => {
+          const copySmpl = { ...smpl };
+          if (smpl.id !== id) {
+            acc.push(copySmpl);
+          }
+          return acc;
+        }, []);
+        setSamples(newSamples);
       })
       .catch((error) => setError(error));
   };

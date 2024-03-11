@@ -1,25 +1,13 @@
 "use client";
 import LoginButton from "@/components/loginButton/loginButton.component";
-import { API } from "@/services/api";
-import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Home() {
   const [auth, setAuth] = useState(false);
   const searchParams = useSearchParams();
   const accessCode = searchParams.get("code");
-  // useEffect(() => {
-  //   console.log("===== auth access code", accessCode);
-  //   if (accessCode) {
-  //     API.retrieveAuthToken(accessCode)
-  //       .then(() => {
-  //         setAuth(true);
-  //       })
-  //       .catch(() => alert("cannot login"));
-  //   }
-  // }, []);
 
   return (
     <main className="flex min-h-screen flex-col ">

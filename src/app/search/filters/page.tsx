@@ -31,7 +31,9 @@ export default function FilterSearch() {
         //need to update samples
         let newSamples = samples.reduce((acc: Sample[], smpl: Sample) => {
           const copySmpl = { ...smpl };
-          acc.push(copySmpl);
+          if (smpl.id !== id) {
+            acc.push(copySmpl);
+          }
           return acc;
         }, []);
         setSamples(newSamples);

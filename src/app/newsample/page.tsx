@@ -1,11 +1,6 @@
 "use client";
 import { Field, Formik, Form, FormikProps } from "formik";
-import React, {
-  InputHTMLAttributes,
-  LegacyRef,
-  RefObject,
-  useRef,
-} from "react";
+import React from "react";
 import MyGoogleMap from "@/components/googleMap/googleMap.component";
 import { API, Sample, FileUpload } from "@/services/api";
 import * as Yup from "yup";
@@ -34,20 +29,6 @@ const NewSampleSchema = Yup.object().shape({
   storageDetails: Yup.string().max(255, "Too Long!"),
   storageDuration: Yup.number(),
 });
-
-const handleUpload = async (selectedFile: File): Promise<void> => {
-  if (selectedFile) {
-    const presignedURL = await API.getPresignedUrl(selectedFile);
-    await API.uploadFile(selectedFile, presignedURL);
-    await API.batchUpload(presignedURL);
-  } else {
-    alert("Please select a file");
-  }
-};
-
-type FileExtensions = {
-  [key: string]: string[];
-};
 
 function isValidFileType(fileName: string): boolean {
   console.log("validating file name", fileName);
@@ -84,7 +65,6 @@ export default function NewSample() {
           }
         }
         onSubmit={async (values, actions) => {
-          console.log("=============== form values", values);
           actions.setSubmitting(true);
           actions.setStatus("submitting");
           if (values.file) {
@@ -103,6 +83,7 @@ export default function NewSample() {
                           router.push("/newsample/successupload");
                         })
                         .catch((error) => {
+                          console.log(error);
                           alert("Batch Upload Error");
                           actions.setSubmitting(false);
                         })
@@ -117,9 +98,6 @@ export default function NewSample() {
                 actions.setSubmitting(false);
               });
           }
-          // setTimeout(() => {
-          //   actions.setSubmitting(false);
-          // }, 100);
         }}
       >
         {(props: FormikProps<FileUpload>) => {
@@ -137,14 +115,16 @@ export default function NewSample() {
                     {props.errors.file && props.values.file ? (
                       <div className="text-red-500">{props.errors.file}</div>
                     ) : null}
-                    {props.isValid && props.values.file && !props.isSubmitting && (
-                      <button
-                        type="submit"
-                        className="bg-secondary-100 hover:bg-secondary-200 text-white font-bold py-2 px-4 rounded ml-3"
-                      >
-                        SUBMIT
-                      </button>
-                    )}
+                    {props.isValid &&
+                      props.values.file &&
+                      !props.isSubmitting && (
+                        <button
+                          type="submit"
+                          className="bg-secondary-100 hover:bg-secondary-200 text-white font-bold py-2 px-4 rounded ml-3"
+                        >
+                          SUBMIT
+                        </button>
+                      )}
                   </div>
                 </fieldset>
               </fieldset>
@@ -199,7 +179,6 @@ export default function NewSample() {
         }}
         validationSchema={NewSampleSchema}
         onSubmit={async (values, actions) => {
-          console.log("=============== form values", values);
           actions.setSubmitting(true);
           actions.setStatus("submitting");
           API.addSample(values)
@@ -208,17 +187,14 @@ export default function NewSample() {
               actions.resetForm();
               router.push("/newsample/success");
             })
-            .catch(() => {
+            .catch((error) => {
+              console.log("==== error ", error);
               actions.setSubmitting(false);
               actions.setStatus("ERROR");
             });
-          // setTimeout(() => {
-          //   actions.setSubmitting(false);
-          // }, 100);
         }}
       >
         {(props: FormikProps<Sample>) => {
-          console.log("=============", props.isSubmitting);
           return (
             <Form>
               <fieldset className="fieldset-border">

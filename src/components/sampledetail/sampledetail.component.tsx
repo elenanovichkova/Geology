@@ -99,16 +99,28 @@ export default function SampleDetail(sample: Sample) {
                             {sample.locationRectangleBounds && (
                               <div className="mt-1 text-sm justify-self-end leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                                 <div>
-                                  north:{" "}
-                                  {`${sample.locationRectangleBounds.north}`}{" "}
-                                  west:{" "}
-                                  {`${sample.locationRectangleBounds.west}`}
+                                  <span className="mr-3 font-medium text-gray-900">
+                                    north:
+                                  </span>
+                                  <span>{`${sample.locationRectangleBounds.north}`}</span>
                                 </div>
                                 <div>
-                                  south:{" "}
-                                  {`${sample.locationRectangleBounds.south}`}{" "}
-                                  east:{" "}
-                                  {`${sample.locationRectangleBounds.east}`}
+                                  <span className="mr-3 font-medium text-gray-900">
+                                    west:
+                                  </span>
+                                  <span>{`${sample.locationRectangleBounds.west}`}</span>
+                                </div>
+                                <div>
+                                  <span className="mr-3 font-medium text-gray-900">
+                                    south:
+                                  </span>
+                                  <span>{`${sample.locationRectangleBounds.south}`}</span>
+                                </div>
+                                <div>
+                                  <span className="mr-3 font-medium text-gray-900">
+                                    east:
+                                  </span>
+                                  <span>{`${sample.locationRectangleBounds.east}`}</span>
                                 </div>
                               </div>
                             )}
