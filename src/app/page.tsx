@@ -6,8 +6,6 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [disabled, setDisabled] = useState("");
-  const [hiddenOption, setHiddenOption] = useState("");
   const [auth, setAuth] = useState(false);
   const searchParams = useSearchParams();
   const accessCode = searchParams.get("code");
@@ -16,8 +14,6 @@ export default function Home() {
     const token = sessionStorage.getItem("id_token");
 
     token ? setAuth(true) : setAuth(false);
-
-    auth ? setHiddenOption("") : setHiddenOption(" hidden");
   }, []);
 
   const handleLogout = () => {
@@ -26,42 +22,9 @@ export default function Home() {
   };
 
   console.log(auth);
-  console.log(disabled);
 
   return (
     <>
-      <div className="sticky top-0 w-full z-50 bg-zinc-950">
-        <div className="flex justify-between">
-          <div>
-            <Link href="/" className="">
-              <div className="p-3">
-                <img src="/Bengal.png" className="h-10"></img>
-              </div>
-            </Link>
-          </div>
-          <div className="text-white w-full hidden lg:block">
-            <div className="flex justify-end items-center h-full">
-              <div className="mr-5  cursor-pointer hover:text-lg w-40  text-center">
-                <Link href="/">HOME</Link>
-              </div>
-              <div className="mr-5  cursor-pointer hover:text-lg w-40 text-center">
-                <Link href="/search/filters">FILTER SEARCH</Link>
-              </div>
-              <div className="mr-5   cursor-pointer hover:text-lg w-40  text-center">
-                <Link href="/search/map">MAP SEARCH</Link>
-              </div>
-              <div className="mr-5  cursor-pointer hover:text-lg w-40 text-center">
-                <Link href="/search/term">TEXT SEARCH</Link>
-              </div>
-              {auth && (
-                <div className="mr-5 cursor-pointer hover:text-lg w-52 text-center">
-                  <Link href="/newsample">NEW SAMPLE / UPLOAD</Link>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
       <main className="flex min-h-screen flex-col ">
         <div className="basis-1/12 items-center justify-between pt-2 pl-8 pr-8 sm:pt-4 sm:pl-16 sm:pr-16">
           <div className="grid md:grid-cols-6 md:gap-4">
@@ -112,10 +75,7 @@ export default function Home() {
                       <div className="md:col-start-4 md:col-span-3 lg:col-start-4 lg:col-span-3">
                         <div className="text-center">
                           <Link href="/newsample">
-                            <button
-                              className={`new-entry-btn ${disabled}`}
-                              disabled={!auth}
-                            >
+                            <button className="new-entry-btn" disabled={!auth}>
                               <div className="">
                                 <span className="">
                                   New Entry Form / Batch Upload

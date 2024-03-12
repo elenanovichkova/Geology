@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Navbar from "@/components/navbar/navbar.component";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +20,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {/* <div className="sticky top-0 w-full z-50 bg-zinc-950">
+        {/* <Navbar token={sessionStorage.getItem("id_token")} /> */}
+        <div className="sticky top-0 w-full z-50 bg-zinc-950">
           <div className="flex justify-between">
             <div>
               <Link href="/" className="">
@@ -50,7 +52,7 @@ export default function RootLayout({
               </div>
             </div>
           </div>
-        </div> */}
+        </div>
         <div className="min-h-screen">{children}</div>
       </body>
     </html>
