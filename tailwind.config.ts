@@ -14,15 +14,15 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        primary: "#bc6c25",
+        primary: "#f47920",
         secondary: {
-          100: "#dda15e",
-          200: "#bd7828",
+          100: "#f69240",
+          200: "#f47920",
         },
         tertiary: {
           100: "#d4c6b6",
-          200: "#d1bfa9"
-        }
+          200: "#d1bfa9",
+        },
       },
       fontFamily: {
         body: ["Nunito"],

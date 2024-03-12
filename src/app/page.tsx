@@ -1,13 +1,30 @@
 "use client";
 import LoginButton from "@/components/loginButton/loginButton.component";
+import LogoutButton from "@/components/logoutButton/logoutButton.component";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [disabled, setDisabled] = useState("");
   const [auth, setAuth] = useState(false);
   const searchParams = useSearchParams();
   const accessCode = searchParams.get("code");
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("id_token");
+
+    token ? setAuth(true) : setAuth(false);
+    auth ? setDisabled("") : setDisabled(" cursor-not-allowed");
+  }, []);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("id_token");
+    setAuth(false);
+  };
+
+  console.log(auth);
+  console.log(disabled);
 
   return (
     <main className="flex min-h-screen flex-col ">
@@ -15,24 +32,7 @@ export default function Home() {
         <div className="grid md:grid-cols-6 md:gap-4">
           <div className="col-start-0 col-span-12 md:col-start-1 md:col-span-6 lg:col-start-2 lg:col-span-4">
             {!auth && <LoginButton />}
-            {auth && (
-              <div className="justify-end">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                  />
-                </svg>
-              </div>
-            )}
+            {auth && <LogoutButton onLogout={handleLogout} />}
           </div>
         </div>
       </div>
@@ -41,7 +41,7 @@ export default function Home() {
         <div className="grid md:grid-cols-6 md:gap-4">
           <div className="col-start-0 col-span-12 md:col-start-1 md:col-span-6 lg:col-start-2 lg:col-span-4">
             <div className="card hover:shadow-lg">
-              <h2 className="card-title">Geo-Science Sample Database</h2>
+              <h2 className="card-title">Geoscience Sample Database</h2>
               <div className="card-body">
                 <p className="card-text">
                   Welcome to the geoscience sample database. This database was
@@ -77,7 +77,10 @@ export default function Home() {
                     <div className="md:col-start-4 md:col-span-3 lg:col-start-4 lg:col-span-3">
                       <div className="text-center">
                         <Link href="/newsample">
-                          <button className="text-primary btn border-primary md:border-2 hover:bg-primary hover:text-white fill-current transition ease-out duration-500">
+                          <button
+                            className={`new-entry-btn ${disabled}`}
+                            disabled={!auth}
+                          >
                             <div className="">
                               <span className="">
                                 New Entry Form / Batch Upload

@@ -49,7 +49,6 @@ export default function RootLayout({
           </div>
         </div>
         <div className="min-h-screen">{children}</div>
-        
       </body>
     </html>
   );
