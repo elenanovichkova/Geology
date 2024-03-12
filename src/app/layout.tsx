@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="sticky top-0 w-full z-50 bg-zinc-950">
+        {/* <div className="sticky top-0 w-full z-50 bg-zinc-950">
           <div className="flex justify-between">
             <div>
               <Link href="/" className="">
@@ -41,13 +42,15 @@ export default function RootLayout({
                 <div className="mr-5  cursor-pointer hover:text-lg w-40 text-center">
                   <Link href="/search/term">TEXT SEARCH</Link>
                 </div>
-                <div className="mr-5 cursor-pointer hover:text-lg w-52 text-center">
+                <div
+                  className={`mr-5 cursor-pointer hover:text-lg w-52 text-center`}
+                >
                   <Link href="/newsample">NEW SAMPLE / UPLOAD</Link>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="min-h-screen">{children}</div>
       </body>
     </html>
